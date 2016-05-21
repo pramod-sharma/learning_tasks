@@ -1,0 +1,183 @@
+mysql> create table users(id tinyint primary key not null auto_increment,name varchar(20));
+
+mysql> desc users;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | tinyint(4)  | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(20) | YES  |     | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+
+
+
+mysql> create table projects(project_name varchar(4),technology varchar(15));
+
+mysql> desc projects;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| project_name | varchar(4)  | YES  |     | NULL    |       |
+| technology   | varchar(15) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+
+mysql> create table completed_projects(project_name varchar(4),employee_id tinyint);
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> desc completed_projects;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| project_name | varchar(4) | YES  |     | NULL    |       |
+| employee_id  | tinyint(4)  | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+
+
+mysql> create table ongoing_projects(project_name varchar(4),employee_id tinyint);
+Query OK, 0 rows affected (0.18 sec)
+
+mysql> desc ongoing_projects;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| project_name | varchar(4) | YES  |     | NULL    |       |
+| employee_id  | tinyint(4)  | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+
+mysql> select * from users;
++----+-------+
+| id | name  |
++----+-------+
+|  1 | amit  |
+|  2 | kamit |
+|  3 | ramit |
+|  4 | samit |
+|  5 | else  |
++----+-------+
+
+mysql> insert into technologies (name) values('html'),('javascript'),('ruby'),('rails'),('ios'),('android');
+
+mysql> select * from technologies;
++----+------------+
+| id | name       |
++----+------------+
+|  1 | html       |
+|  2 | javascript |
+|  3 | ruby       |
+|  4 | rails      |
+|  5 | ios        |
+|  6 | android    |
++----+------------+
+
+
+mysql> select * from projects;
++--------------+------------+
+| project_name | technology |
++--------------+------------+
+| p1           |          1 |
+| p1           |          2 |
+| p1           |          3 |
+| p1           |          4 |
+| p2           |          5 |
+| p3           |          6 |
+| p4           |          5 |
+| p4           |          6 |
+| p6           |          6 |
+| p6           |          1 |
+| p6           |          2 |
+| p5           |          3 |
+| p5           |          4 |
+| p7           |          6 |
+| p7           |          5 |
+| p8           |          1 |
+| p8           |          2 |
+| p8           |          3 |
+| p8           |          4 |
+| p8           |          6 |
+| p9           |          5 |
++--------------+------------+
+
+
+mysql> select * from ongoing_projects;
++--------------+-------------+
+| project_name | employee_id |
++--------------+-------------+
+| p6           |           1 |
+| p5           |           4 |
+| p6           |           4 |
++--------------+-------------+
+
+
+mysql> select * from completed_projects;
++--------------+-------------+
+| project_name | employee_id |
++--------------+-------------+
+| p1           |           1 |
+| p1           |           2 |
+| p1           |           3 |
+| p1           |           4 |
+| p2           |           1 |
+| p2           |           3 |
+| p2           |           4 |
+| p3           |           1 |
+| p3           |           2 |
+| p4           |           4 |
+| p7           |           2 |
+| p9           |           2 |
+| p8           |           3 |
+| p9           |           3 |
++--------------+-------------+
+
+
+1) Find names of all employees currently not working in any projects. (Use joins)
+
+mysql> select name from users left join ongoing_projects on users.id=ongoing_projects.employee_id where isnull(project_name);
++-------+
+| name  |
++-------+
+| kamit |
+| ramit |
+| else  |
++-------+
+
+2) Find all employees who have exposure to HTML, Javascript and IOS.
+
+mysql> select completed_projects.employee_id from 
+          completed_projects join projects on projects.project_name = completed_projects.project_name 
+          where technology in (select id from technologies where name in('html','javascript','ios')) 
+       group by completed_projects.employee_id having count(distinct projects.project_name)>=3;
++-------------+
+| employee_id |
++-------------+
+|           1 |
+|           2 |
+|           3 |
+|           4 |
++-------------+
+
+3) Find the technologies in which a particular employee(Say B) has expertise(3 or more projects)
+
+mysql> select name from technologies where id in (
+          select technology from completed_projects join projects on projects.project_name = completed_projects.project_name where completed_projects.employee_id=
+              (select @employee_id:=id from users where name="kamit")
+          group by technology having count(*)>=3 );
++---------+
+| name    |
++---------+
+| android |
++---------+
+
+
+4) Find the employee who has done most no of projects in android.
+
+mysql> select name from (
+          select employee_id from completed_projects join projects on projects.project_name = completed_projects.project_name where projects.technology=(
+            select id from technologies where name="android") group by employee_id order by count(*) desc limit 1
+          ) t1 
+          join 
+          users on users.id = t1.employee_id;
++-------+
+| name  |
++-------+
+| kamit |
++-------+
+1 row in set (0.00 sec)

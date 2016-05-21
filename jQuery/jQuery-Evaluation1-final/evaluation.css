@@ -1,0 +1,43 @@
+.boxes {
+  border : 1px solid black;
+  min-height : 200px;
+  width : 619px;
+  margin : 20px;
+  overflow-y : scroll;
+}
+
+.header {
+  width : 100%;
+}
+
+.header div {
+  border-collapse: collapse;
+  border : 1px solid black;
+  min-height : 20px;
+  float : left;
+}
+
+.inputEntered {
+  float : left;
+}
+
+.id {
+  width : 50px;
+}
+
+.name {
+  width : 200px;
+}
+
+.email {
+  width : 350px;
+}
+
+.clearFloatDiv {
+  clear : left;
+}
+
+.inputEntered {
+  padding-left:1px;
+  border-bottom: 1px solid black
+}

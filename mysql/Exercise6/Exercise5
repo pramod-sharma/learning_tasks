@@ -1,0 +1,16 @@
+mysql> create table email_subscribers(email_address varchar(50),city varchar(25),phone_number varchar(10));
+
+mysql> load data local infile 'exercise/mySQL/Exercise5/email_subscribers.txt' into table email_subscribers fields terminated by ',' lines terminated by '\n' (email_address,phone_number,city);
+Query OK, 200 rows affected (0.04 sec)
+Records: 200  Deleted: 0  Skipped: 0  Warnings: 0
+
+mysql> select distinct city from email_subscribers;
+
+mysql> select count(*),city from email_subscribers group by city;
+
+mysql> select city from email_subscribers group by city order by count(*) desc limit 1;
+
+mysql>  SELECT distinct SUBSTRING_INDEX(email_address, '@', -1) from email_subscribers group by SUBSTRING_INDEX(email_address, '@', -1);
+
+
+mysql>  SELECT distinct SUBSTRING_INDEX(email_address, '@', -1) from email_subscribers group by SUBSTRING_INDEX(email_address, '@', -1) order by count(*) desc limit 1;

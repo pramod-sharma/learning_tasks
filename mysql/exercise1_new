@@ -1,0 +1,96 @@
+Part 1---------------------------------
+
+mysql> create table tastes (name varchar(10) not null,filling varchar(10) not null);
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> create table sandwiches(location varchar(15) not null,bread varchar(10) not null,filling varchar(15) not null,price decimal(3,2) not null);
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> create table locations(lname varchar(15) not null,phone decimal(7) not null,address varchar(25) not null);
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> select address from locations where lname in(select location from sandwiches where filling in(select filling from tastes where name='jones'));
++------------+
+| address    |
++------------+
+| pearse st  |
+| college st |
++------------+
+2 rows in set (0.00 sec)
+
+
+mysql> select address from locations,sandwiches,tastes where lname=sandwiches.location and sandwiches.filling=tastes.filling and tastes.name='jones';
++------------+
+| address    |
++------------+
+| pearse st  |
+| college st |
++------------+
+2 rows in set (0.00 sec)
+
+mysql> select count(distinct name) as count, location from tastes join sandwiches on tastes.filling=sandwiches.filling group by location;
++-------+-----------+
+| count | location  |
++-------+-----------+
+|     3 | buttery   |
+|     2 | lincoln   |
+|     3 | o'neill's |
+|     1 | old nag   |
+|     1 | tilakngr  |
++-------+-----------+
+5 rows in set (0.03 sec)
+
+
+Part 2---------------------------------------------------------------------------------------
+
+mysql> create table titles(title varchar(30),author varchar(20),publisher varchar(20));
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> create table branches(bcode char(2) not null,librarian varchar(20) not null,address varchar(30) not null);
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> create table holdings(branch char(2),title varchar(30),`#copies` tinyint);
+Query OK, 0 rows affected (0.14 sec)
+
+
+
+mysql> select title from titles where publisher='macmillan';
++----------+
+| title    |
++----------+
+| susannah |
+| The Wife |
++----------+
+2 rows in set (0.00 sec)
+
+
+mysql> select branch from holdings where title in (select title from titles where author='ann brown');
++--------+
+| branch |
++--------+
+| B1     |
+| B2     |
+| B3     |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> select branch from holdings,titles where titles.author='ann brown' and titles.title=holdings.title;
++--------+
+| branch |
++--------+
+| B1     |
+| B2     |
+| B3     |
++--------+
+3 rows in set (0.00 sec)
+
+
+mysql> select sum(`#copies`) from holdings group by branch;
++----------------+
+| sum(`#copies`) |
++----------------+
+|              6 |
+|              9 |
+|              6 |
++----------------+
+3 rows in set (0.00 sec)

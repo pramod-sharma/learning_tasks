@@ -1,0 +1,7 @@
+
+$ mysqldump -h localhost -p -u root demo > newtestfile.sql 
+
+mysql> create database restored;
+Query OK, 1 row affected (0.00 sec)
+
+$ mysql -h localhost -p -u root restored < newtestfile.sql

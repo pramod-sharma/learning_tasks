@@ -1,0 +1,67 @@
+mysql> CREATE TABLE Testing_Tables(name VARCHAR(30),contact_name VARCHAR(20),roll_no CHAR(10));
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> SHOW COLUMNS FROM Testing_Tables;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| name         | varchar(30) | YES  |     | NULL    |       |
+| contact_name | varchar(20) | YES  |     | NULL    |       |
+| roll_no      | char(10)    | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE Testing_Tables DROP name;
+Query OK, 0 rows affected (0.29 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SHOW COLUMNS FROM Testing_Tables;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| contact_name | varchar(20) | YES  |     | NULL    |       |
+| roll_no      | char(10)    | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> ALTER TABLE Testing_Tables CHANGE contact_name username VARCHAR(20);
+Query OK, 0 rows affected (0.28 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SHOW COLUMNS FROM Testing_Tables;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| username | varchar(20) | YES  |     | NULL    |       |
+| roll_no  | char(10)    | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> ALTER TABLE Testing_Tables ADD first_name VARCHAR(20),ADD last_name VARCHAR(20);
+Query OK, 0 rows affected (0.27 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SHOW COLUMNS FROM Testing_Tables;+------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| username   | varchar(20) | YES  |     | NULL    |       |
+| roll_no    | char(10)    | YES  |     | NULL    |       |
+| first_name | varchar(20) | YES  |     | NULL    |       |
+| last_name  | varchar(20) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> ALTER TABLE Testing_Tables MODIFY roll_no INTEGER;
+Query OK, 0 rows affected (0.28 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SHOW COLUMNS FROM Testing_Tables;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| username   | varchar(20) | YES  |     | NULL    |       |
+| roll_no    | int(11)     | YES  |     | NULL    |       |
+| first_name | varchar(20) | YES  |     | NULL    |       |
+| last_name  | varchar(20) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)

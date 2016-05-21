@@ -1,0 +1,10 @@
+.testDiv {
+  border : solid 1px black;
+  width : 100px;
+  height : 30px;
+  float : left;
+  clear : left;
+}
+#addDivButton {
+  float : right;
+}

@@ -1,0 +1,146 @@
+1). Find all the users with all their followings :-
+
+mysql> select t1.name,t2.name as followings from (select users.name,relationships.id from users join relationships on users.id = relationships.user_id) as t1 join (select users.name,relationships.id from users join relationships on users.id = relationships.following_id) as t2 on t1.id=t2.id;
+
+
+select 
++-------+------------+
+| name  | followings |
++-------+------------+
+| Akhil | Manik      |
+| Akhil | Amit       |
+| Akhil | Kapil      |
+| Akhil | Ankur      |
+| Akhil | Suman      |
+| John  | Ryan       |
+| Ryan  | John       |
+| Kapil | Akhil      |
+| Kapil | Manik      |
+| Kapil | Suman      |
+| Ankur | Akhil      |
+| Ankur | Manik      |
+| Ankur | Amit       |
+| Ankur | Rahul      |
+| Ankur | Kapil      |
+| Ankur | John       |
+| Ankur | Ryan       |
+| Ankur | Sunil      |
+| Ankur | Suman      |
++-------+------------+
+
+
+
+2). Find all users with all their followings(comma seperated) :-
+
+mysql> select users.name,group_concat(t1.name) as following from users as t1 join relationships  join users on users.id=relationships.user_id and relationships.following_id=t1.id group by users.name order by count(*) desc;
++-------+----------------------------------------------------+
+| name  | following                                          |
++-------+----------------------------------------------------+
+| Ankur | Akhil,Manik,Amit,Rahul,Kapil,John,Ryan,Sunil,Suman |
+| Akhil | Manik,Amit,Kapil,Ankur,Suman                       |
+| Kapil | Akhil,Manik,Suman                                  |
+| John  | Ryan                                               |
+| Ryan  | John                                               |
++-------+----------------------------------------------------+
+
+
+3).
+mysql> select name,content,created_at from users join tweets on users.id=tweets.user_id where users.id=1 or users.id in (select users.id from users join relationships on users.id = relationships.following_id where relationships.user_id=1) order by created_at desc;
++-------+-------------------------------------------------+---------------------+
+| name  | content                                         | created_at          |
++-------+-------------------------------------------------+---------------------+
+| Akhil | Its raining                                     | 2012-08-07 12:57:43 |
+| Manik | Stop playing twitter twitter, focus on your job | 2012-08-07 12:55:46 |
+| Ankur | Thanks for letting me know                      | 2012-08-07 12:54:51 |
+| Ankur | Nokis is a nice mobile company                  | 2012-08-07 12:54:20 |
+| Kapil | I am at vinsol                                  | 2012-08-07 12:53:59 |
+| Suman | Lets test this...                               | 2012-08-07 12:53:18 |
+| Akhil | lorem ipsum                                     | 2012-08-07 12:53:01 |
+| Manik | Hello there                                     | 2012-08-07 12:52:46 |
+| Manik | Test tweet.                                     | 2012-08-07 12:52:38 |
+| Akhil | My first ever tweet.                            | 2012-08-07 12:52:11 |
++-------+-------------------------------------------------+---------------------+
+
+
+
+
+4). Findout how many tweets each users has done
+mysql> select name,count(*) as total_tweets from users join tweets on users.id=tweets.user_id group by name;
++-------+--------------+
+| name  | total_tweets |
++-------+--------------+
+| Akhil |            3 |
+| Ankur |            2 |
+| John  |            1 |
+| Kapil |            1 |
+| Manik |            3 |
+| Rahul |            1 |
+| Ryan  |            2 |
+| Suman |            1 |
+| Sunil |            1 |
++-------+--------------+
+
+5).Findout all users who haven't tweeted ever 
+mysql> select distinct name from users left join tweets on users.id=tweets.user_id where isnull(content) group by name ;
++------+
+| name |
++------+
+| Amit |
++------+
+
+
+6). Findout all users with their tweets who has tweeted in last 1 hour
+
+mysql> select users.name from users join tweets on users.id = tweets.user_id where created_at >= DATE_SUB(now(),interval 1 hour);
++-------+
+| name  |
++-------+
+| Ankur |
++-------+
+
+
+
+1). Revised of 1st question
+mysql> select users.name as name,t1.name as following from users as t1 join relationships  join users on users.id=relationships.user_id and relationships.following_id=t1.id;
++-------+-----------+
+| name  | following |
++-------+-----------+
+| Akhil | Manik     |
+| Akhil | Amit      |
+| Akhil | Kapil     |
+| Akhil | Ankur     |
+| Akhil | Suman     |
+| John  | Ryan      |
+| Ryan  | John      |
+| Kapil | Akhil     |
+| Kapil | Manik     |
+| Kapil | Suman     |
+| Ankur | Akhil     |
+| Ankur | Manik     |
+| Ankur | Amit      |
+| Ankur | Rahul     |
+| Ankur | Kapil     |
+| Ankur | John      |
+| Ankur | Ryan      |
+| Ankur | Sunil     |
+| Ankur | Suman     |
++-------+-----------+
+
+
+3). Revised of 3rd question
+mysql> select name,content,created_at from users join tweets join relationships on users.id=tweets.user_id and relationships.following_id=tweets.user_id where users.id=1 or relationships.user_id=1 group by content,created_at order by created_at desc;
++-------+-------------------------------------------------+---------------------+
+| name  | content                                         | created_at          |
++-------+-------------------------------------------------+---------------------+
+| Akhil | Its raining                                     | 2012-08-07 12:57:43 |
+| Manik | Stop playing twitter twitter, focus on your job | 2012-08-07 12:55:46 |
+| Ankur | Thanks for letting me know                      | 2012-08-07 12:54:51 |
+| Ankur | Nokis is a nice mobile company                  | 2012-08-07 12:54:20 |
+| Kapil | I am at vinsol                                  | 2012-08-07 12:53:59 |
+| Suman | Lets test this...                               | 2012-08-07 12:53:18 |
+| Akhil | lorem ipsum                                     | 2012-08-07 12:53:01 |
+| Manik | Hello there                                     | 2012-08-07 12:52:46 |
+| Manik | Test tweet.                                     | 2012-08-07 12:52:38 |
+| Akhil | My first ever tweet.                            | 2012-08-07 12:52:11 |
++-------+-------------------------------------------------+---------------------+
+

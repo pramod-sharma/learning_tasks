@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <script type="text/javascript">
+    /*jslint white: true, browser: true, plusplus: true, devel: true */
+    function callPrompt() {
+        "use strict";
+        var firstName, lastName, name, authentic = false;
+        do { 
+            firstName = prompt("Please enter your first name","");
+            firstName = firstName.trim();
+            if (firstName !== "") {
+                authentic = true;
+            }     
+            if (authentic === false ) {
+            alert("Please enter valid value. you can't leave first name blank");
+            }
+        } while( authentic === false );
+        authentic = false;
+        do {
+            lastName = prompt("Please enter your last name","");
+            lastName = lastName.trim();
+            if (lastName !== "") {
+                authentic = true;
+            }
+            if ( authentic === false ) {
+                alert("Please enter valid value. you can't leave last name blank");
+            }
+        }while( authentic === false );
+        name= "Hello " + firstName + " " + lastName;
+        alert(name);  
+        document.getElementById("name").innerHTML=name;
+    }
+    </script>
+  </head>
+  <body onload="callPrompt()">
+  <p id="name"></p> 
+  </body>
+</html>

@@ -1,0 +1,131 @@
+
+mysql> create table users(id smallint not null,name varchar(25),type varchar(5),  primary key(id));
+mysql> select * from users;
++----+-------+--------+
+| id | name  | type   |
++----+-------+--------+
+|  5 | user1 | admin  |
+|  6 | user3 | normal |
+|  7 | user4 | normal |
++----+-------+--------+
+
+
+mysql> create table categories(id tinyint not null auto_increment,name varchar(15),primary key(id));
+mysql> select * from categories;
++----+----------+
+| id | name     |
++----+----------+
+|  1 | travel   |
+|  2 | wildlife |
+|  3 | sports   |
++----+----------+
+
+
+mysql> create table articles(id smallint not null auto_increment,category_id tinyint,name varchar(25),author_id smallint,
+    -> primary key(id),
+    -> foreign key(category_id) references categories(id) on delete cascade on update cascade,
+    -> foreign key(author_id) references users(id) on delete cascade on update cascade);
+
+mysql> select * from articles;
++----+-------------+--------------+-----------+
+| id | category_id | name         | author_id |
++----+-------------+--------------+-----------+
+|  1 |           1 | flamingo     |         6 |
+|  2 |           3 | cricket      |         7 |
+|  3 |           1 | flamingo_new |         6 |
+|  4 |           3 | cricket_new  |         7 |
++----+-------------+--------------+-----------+
+
+mysql> create table comments(id integer primary key not null auto_increment,user_id smallint,article_id smallint,comments text, foreign key(user_id) references users(id) on delete cascade on update cascade, foreign key(article_id) references articles(id) on delete cascade on update cascade);
+
+mysql> select * from comments;
++----+---------+------------+----------+
+| id | user_id | article_id | comments |
++----+---------+------------+----------+
+|  1 |       5 |          1 | hi       |
+|  2 |       5 |          2 | hello    |
+|  3 |       6 |          1 | heyy     |
+|  4 |       6 |          2 | hey      |
+|  5 |       6 |          3 | hey      |
+|  7 |       5 |          1 | hey      |
++----+---------+------------+----------+
+
+
+
+insert into categories (name) values('category_name');
+delete from categories where id=2;
+update categories set name='others' where id=3;
+
+
+insert into users (name,type) values('amit','admin');
+delete from users where id=2;
+update users set name='ramit' where id=3;
+
+insert into articles (category_id,name,author_id) values(2,'flamingo',1);
+delete from articles where id=2;
+update articles set name='others' where id=3;
+
+
+insert into comments (user_id,article_id,#comments) values('category_name');
+delete from categories where id=2;
+update categories set name='others' where id=3;
+
+
+1). select all articles whose author is user3.
+
+mysql> select articles.name from articles,users where articles.author_id=users.id and users.name='user3'; 
+
+
+2).For all the articles being selected above, select all the articles and also the comments associated with those articles in a single query
+
+mysql> select comments,articles.id from comments join articles join users on comments.article_id=articles.id and articles.author_id=users.id and users.name='user3';
++----------+----+
+| comments | id |
++----------+----+
+| hi       |  1 |
+| heyy     |  1 |
+| hey      |  1 |
+| hey      |  3 |
++----------+----+
+
+
+3).Write a query to select all articles which do not have any comments
+select distinct articles.name from articles left join comments on articles.id=comments.article_id where isnull(comments.comments);
++-------------+
+| name        |
++-------------+
+| cricket_new |
++-------------+
+
+
+4).Write a query to select article which has maximum comments
+mysql> select name,count(*) as count from articles join comments on articles.id=comments.article_id group by article_id having count = (select count(*) as inner_count from articles join comments on articles.id=comments.article_id group by article_id order by inner_count desc limit 1 );
++----------+-------+
+| name     | count |
++----------+-------+
+| flamingo |     3 |
++----------+-------+
+
+
+5).Write a query to select article which does not have more than one comment by the same user ( do this using left join and also do it using group by )
+
+(i)Using left join
+mysql> select t.article_id from (select article_id,user_id,count(*) as count from comments left join articles on comments.article_id=articles.id group by article_id,user_id) as t group by article_id having sum(count)=count(article_id);
++------------+
+| article_id |
++------------+
+|          2 |
+|          3 |
++------------+
+
+
+(ii)Using group by
+mysql> select articles.name as article_name from articles join users join comments on users.id=articles.author_id and comments.article_id = articles.id group by article_id having count(distinct user_id)=count(article_id);
++--------------+
+| article_name |
++--------------+
+| cricket      |
+| flamingo_new |
++--------------+
+
+

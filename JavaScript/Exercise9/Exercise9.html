@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <script type="text/javascript" src="Exercise9.js">
+        </script>
+  </head>
+  <body style="width:40%">
+  <h3 style="text-align:center"> Registration Form </h3>
+  <form id="form" action="#" onsubmit="return checkSubmit();" method="post()">
+    <div>
+      <label for="LoginId" style="float:left">Login Id </label>
+      <input type="text" Class="textField" name="Login-Id" style="float:right; margin-right:60px;"  id="LoginId">
+    </div><br><br>
+    <div>
+      <label for="Email" style="float:left">Email </label>
+      <input type="text" Class="textField" name="Email" style="float:right; margin-right:60px;"  id="Email">
+    </div><br><br>
+    <div>
+      <label for="Name" style="float:left">Name </label>
+      <input type="text" Class="textField" name="Name" style="float:right; margin-right:60px;"  id="Name">
+    </div><br><br>
+    <div>
+      <label for="TimeZone" style="float:left">Time Zone </label>
+      <select id="TimeZone" style="float:right; margin-right:143px; width:150px; background-color:white" name="TimeZone">
+        <option value="gmt1">GMT-1:30</option>
+        <option value="gmt2">GMT-1:00</option>
+        <option value="gmt3">GMT-0:30</option>
+        <option value="gmt4" selected >GMT</option>
+        <option value="gmt5">GMT+0:30</option>
+        <option value="gmt6">GMT+1:00</option>
+        <option value="gmt7">GMT+1:30</option>
+      </select>
+    </div><br><br>
+    <div> 
+      <label for="HomePage" style="float:left">HomePage</label>
+      <input type="text" Class="textField"  name="HomePage" style="float:right; margin-right:60px;"  id="HomePage">
+    </div><br><br>
+    <div>
+      <label for="AboutMe" style="float:left">About Me </label><br>
+      <textarea rows="4" cols="67" name="AboutMe" style="float:left" id="AboutMe"></textarea>
+    </div>
+    <div style="clear:left;">
+      <input type="checkbox"   id="notification" name="textField">
+      <label for="notification">Receive notification of comments</label>
+    </div>
+    <p>You will be sent an email when someone posts comments to your Blog or Album</p>
+    <p style="text-align:center">Your password will be mailed to you</p>
+    <input type="submit" value="GO" style="margin-left:200px;">
+  </form> 
+  </body>
+</html>

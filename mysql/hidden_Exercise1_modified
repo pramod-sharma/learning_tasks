@@ -1,0 +1,200 @@
+mysql> create table users(id tinyint primary key not null auto_increment,name varchar(20));
+mysql> desc users;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | tinyint(4)  | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(20) | YES  |     | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+
+mysql> select * from users;
++----+-------+
+| id | name  |
++----+-------+
+|  1 | amit  |
+|  2 | ramit |
+|  3 | kamit |
+|  4 | samit |
++----+-------+
+
+
+mysql> create table projects(project_name varchar(4),technology varchar(15));
+mysql> desc projects;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| project_name | varchar(4)  | YES  |     | NULL    |       |
+| technology   | varchar(15) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+
+mysql> select * from projects;
++--------------+------------+
+| project_name | technology |
++--------------+------------+
+| p1           | 1          |
+| p1           | 2          |
+| p1           | 3          |
+| p1           | 4          |
+| p2           | 5          |
+| p3           | 6          |
+| p4           | 5          |
+| p4           | 6          |
+| p6           | 6          |
+| p6           | 1          |
+| p6           | 2          |
+| p5           | 3          |
+| p5           | 4          |
+| p7           | 6          |
+| p7           | 5          |
+| p8           | 1          |
+| p8           | 2          |
+| p8           | 3          |
+| p8           | 4          |
+| p8           | 6          |
+| p9           | 5          |
++--------------+------------+
+
+
+
+mysql> create table project_details(project_name varchar(4),employee_id tinyint,status bit(1));
+mysql> desc project_details;
++--------------+------------+------+-----+---------+-------+
+| Field        | Type       | Null | Key | Default | Extra |
++--------------+------------+------+-----+---------+-------+
+| project_name | varchar(4) | YES  |     | NULL    |       |
+| employee_id  | tinyint(4) | YES  |     | NULL    |       |
+| status       | bit(1)     | YES  |     | NULL    |       |
++--------------+------------+------+-----+---------+-------+
+
+mysql> select project_name,employee_id,status+0 from project_details;
++--------------+-------------+----------+
+| project_name | employee_id | status+0 |
++--------------+-------------+----------+
+| p6           |           1 |        1 |
+| p5           |           4 |        1 |
+| p6           |           4 |        1 |
+| p1           |           1 |        0 |
+| p1           |           2 |        0 |
+| p1           |           3 |        0 |
+| p1           |           4 |        0 |
+| p2           |           1 |        0 |
+| p2           |           3 |        0 |
+| p2           |           4 |        0 |
+| p3           |           1 |        0 |
+| p3           |           2 |        0 |
+| p4           |           4 |        0 |
+| p7           |           2 |        0 |
+| p9           |           2 |        0 |
+| p8           |           3 |        0 |
+| p9           |           3 |        0 |
++--------------+-------------+----------+
+
+mysql> alter table project_details change status ongoing_status boolean;
+Query OK, 17 rows affected (0.36 sec)
+Records: 17  Duplicates: 0  Warnings: 0
+
+mysql> select * from project_details;
++--------------+-------------+----------------+
+| project_name | employee_id | ongoing_status |
++--------------+-------------+----------------+
+| p6           |           1 |              1 |
+| p5           |           4 |              1 |
+| p6           |           4 |              1 |
+| p1           |           1 |              0 |
+| p1           |           2 |              0 |
+| p1           |           3 |              0 |
+| p1           |           4 |              0 |
+| p2           |           1 |              0 |
+| p2           |           3 |              0 |
+| p2           |           4 |              0 |
+| p3           |           1 |              0 |
+| p3           |           2 |              0 |
+| p4           |           4 |              0 |
+| p7           |           2 |              0 |
+| p9           |           2 |              0 |
+| p8           |           3 |              0 |
+| p9           |           3 |              0 |
++--------------+-------------+----------------+
+
+
+mysql> select * from technologies;
++----+------------+
+| id | name       |
++----+------------+
+|  1 | html       |
+|  2 | javascript |
+|  3 | ruby       |
+|  4 | rails      |
+|  5 | ios        |
+|  6 | android    |
++----+------------+
+
+
+mysql> select * from projects;
++--------------+------------+
+| project_name | technology |
++--------------+------------+
+| p1           |          1 |
+| p1           |          2 |
+| p1           |          3 |
+| p1           |          4 |
+| p2           |          5 |
+| p3           |          6 |
+| p4           |          5 |
+| p4           |          6 |
+| p6           |          6 |
+| p6           |          1 |
+| p6           |          2 |
+| p5           |          3 |
+| p5           |          4 |
+| p7           |          6 |
+| p7           |          5 |
+| p8           |          1 |
+| p8           |          2 |
+| p8           |          3 |
+| p8           |          4 |
+| p8           |          6 |
+| p9           |          5 |
++--------------+------------+
+
+
+1) Find names of all employees currently not working in any projects. (Use joins)
+mysql> select name from users left join project_details on users.id=project_details.employee_id and project_details.status=(1) where isnull(status);
++-------+
+| name  |
++-------+
+| ramit |
+| kamit |
++-------+
+
+2) Find all employees who have exposure to HTML, Javascript and IOS.
+mysql> select users.name from users join projects join project_details join technologies on technologies.id=projects.technology and projects.project_name=project_details.project_name and project_details.employee_id=users.id where technologies.name in ('html','javascript','ios') and project_details.ongoing_status=FALSE group by users.name having count(distinct technology)=3;
++-------+
+| name  |
++-------+
+| amit  |
+| kamit |
+| ramit |
+| samit |
++-------+
+
+
+
+3) Find the technologies in which a particular employee(Say B) has expertise(3 or more projects)
+
+mysql> select technologies.name from users join projects join project_details join technologies on technologies.id=projects.technology and projects.project_name=project_details.project_name and project_details.employee_id=users.id where users.name='kamit' group by technologies.name having count(projects.project_name)>=3;
++---------+
+| name    |
++---------+
+| android |
++---------+
+
+
+4) Find the employee who has done most no of projects in android.
+mysql> select users.name,count(projects.project_name) as count from users join projects join project_details join technologies on technologies.id=projects.technology and projects.project_name=project_details.project_name and project_details.employee_id=users.id and technologies.name='android' and project_details.ongoing_status=FALSE group by users.name having count=(       select count(projects.project_name) as count from projects join project_details join technologies on technologies.id=projects.technology and projects.project_name=project_details.project_name and technologies.name='android' and project_details.ongoing_status=FALSE group by project_details.employee_id order by count desc limit 1);
++-------+-------+
+| name  | count |
++-------+-------+
+| kamit |     3 |
+| ramit |     3 |
++-------+-------+

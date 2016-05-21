@@ -1,0 +1,92 @@
+/*jslint white: true, browser: true, plusplus: true, devel: true */
+function addRow() { "use strict";
+    var oTBody, rowNo, name, mailId, saveButton, row;
+    oTBody = document.getElementById("tbody");
+    rowNo = oTBody.rows.length;
+    row = oTBody.insertRow(rowNo);
+    row.setAttribute("id",rowNo);
+    oTBody.rows[rowNo].insertCell(0);
+    name = document.createElement("input");
+    name.setAttribute("type","text");
+    name.setAttribute("Class","name");
+    oTBody.rows[rowNo].cells[0].appendChild(name);  
+    oTBody.rows[rowNo].insertCell(1);
+    mailId = document.createElement("input");
+    mailId.setAttribute("type","text");
+    mailId.setAttribute("Class","mailid");
+    oTBody.rows[rowNo].cells[1].appendChild(mailId);
+    oTBody.rows[rowNo].insertCell(2);
+    saveButton = document.createElement("input");
+    saveButton.setAttribute("type","button");
+    saveButton.setAttribute("Class","saveButton");
+    saveButton.setAttribute("value","Save");
+    saveButton.setAttribute("onclick","saveRow("+rowNo+")");
+    oTBody.rows[rowNo].cells[2].appendChild(saveButton);
+}
+function saveRow(id) { "use strict";
+    var cell, row, oname, name, oemail, mailId, button, savedName, savedMailId, link, editLink, linkText, deleteLink ;
+    row = document.getElementById(id);
+    oname = row.cells[0].getElementsByClassName("name")[0];  
+    name = oname.value;
+    oemail = row.cells[1].getElementsByClassName("mailid")[0];  
+    mailId = oemail.value;
+    button = row.cells[2].getElementsByClassName("saveButton")[0];
+    savedName = document.createTextNode(name);
+    savedMailId = document.createTextNode(mailId);
+    link = document.createElement("div");
+    link.setAttribute("Class","EditDeleteLink");
+    editLink = document.createElement("a");
+    editLink.setAttribute("onclick","editRow("+id+")");
+    editLink.setAttribute("style","cursor:pointer");
+    linkText = document.createTextNode("Edit/ ");
+    editLink.appendChild(linkText);
+    deleteLink = document.createElement("a");
+    deleteLink.setAttribute("onclick","deleteRow("+id+")");
+    deleteLink.setAttribute("style","cursor:pointer");
+    linkText = document.createTextNode(" Delete");
+    deleteLink.appendChild(linkText);
+    link.appendChild(editLink);
+    link.appendChild(deleteLink);
+    row.cells[0].replaceChild(savedName,oname);
+    row.cells[1].replaceChild(savedMailId,oemail);
+    row.cells[2].replaceChild(link,button);
+}
+function deleteRow(id) { "use strict";
+    var link, cell, row, oTBody, rowNo, i, saveButton, oldValue ; 
+    row = document.getElementById(id);
+    oTBody = document.getElementById("tbody");
+    oTBody.removeChild(row);
+    rowNo = oTBody.rows.length;
+    for ( i=id; i<rowNo ;i++) {
+        row = oTBody.rows[i];
+        row.id = i;
+        saveButton = oTBody.rows[i].cells[2].getElementsByClassName("saveButton")[0]
+        saveButton.setAttribute("onclick","saveRow("+i+")");
+    }
+}
+function editRow(id) { "use strict";
+    var  link, cell, row, oTBody, nameNode, nameText, mailNode, EmailId, links, name, mailId, saveButton ;
+    row = document.getElementById(id);
+    oTBody = document.getElementById("tbody");
+    nameText = oTBody.rows[id].cells[0].textContent;
+    EmailId = oTBody.rows[id].cells[1].textContent;
+    oTBody.rows[id].cells[0].textContent="";
+    oTBody.rows[id].cells[1].textContent="";
+    links = oTBody.rows[id].cells[2].getElementsByClassName("EditDeleteLink")[0];
+    name = document.createElement("input");
+    name.setAttribute("type","text");
+    name.setAttribute("Class","name");
+    name.setAttribute("value",nameText);
+    mailId = document.createElement("input");
+    mailId.setAttribute("type","text");
+    mailId.setAttribute("Class","mailid");
+    mailId.setAttribute("value",EmailId);
+    saveButton = document.createElement("input");
+    saveButton.setAttribute("type","button");
+    saveButton.setAttribute("Class","saveButton");
+    saveButton.setAttribute("value","Save");
+    saveButton.setAttribute("onclick","saveRow("+id+")");
+    row.cells[0].appendChild(name);
+    row.cells[1].appendChild(mailId);
+    row.cells[2].replaceChild(saveButton,links);
+}

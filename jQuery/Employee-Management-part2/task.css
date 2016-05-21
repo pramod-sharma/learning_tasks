@@ -1,0 +1,120 @@
+/* Common property of all Divs*/
+#rolediv,#employeesDiv,#toDosDiv {
+    margin-left: 50px;
+    border : 1px solid #cfcfcf;
+    float:left;
+    text-align: center;
+}
+
+
+/*Property of roles and employee Div*/
+#roleDiv,#employeesDiv {
+    width : 20%; 
+}
+
+li {
+    list-style: none;
+    text-align : left;
+    padding : 2px 0px 2px 5px;
+    border :1px solid black;
+}
+
+
+/* Roles Div Properties*/
+div.roles {
+    border : 1px solid black;
+    width: 100%;
+}
+
+/* To Dos Div */
+div.toDOs {
+    border : 1px solid black;
+    width: 100%;   
+}
+
+
+#toDosDiv {
+    width : 40%;
+}
+
+div .toDos .collapseExpandButton {
+    width : 15px;
+    height : 15px;
+    float : right;
+}
+
+img.crossIcon {
+    width : 20px;
+    height : 25px;
+    position : absolute;
+}
+
+.expandAllButton,.collapseAllButton {
+    width : 15px;
+    height : 15px;
+    float : right;
+    margin-right: 10px;    
+}
+
+/* Dynamic elements Classes*/
+.taskDiv {
+    float :left;
+    margin : 10px 0px;
+    width : 70%;
+    min-height : 60px;
+    border : 1px solid black;
+    padding : 5px;
+}
+
+.toDoList {
+    width : 100px;
+    float : left;
+    border : 1px solid black;
+    margin : 10px 30px 0px 10px;
+}
+
+.clearFloatDiv {
+    clear : left;
+}
+
+.addTaskButton {
+    float : right;
+    width : 15px;
+    height : 15px;
+}
+
+
+/*Part 2 dynamic Elements*/
+.toDoTaskDiv{
+    margin-top: 10px;
+}
+
+
+.inputTextBox {
+    float : left;
+    margin-top: 3px;
+    margin-right: 5px;
+}
+
+.saveButton,.deleteButton,.editButton{
+    float :left;
+    width : 20px;
+    height : 20px;
+}
+
+.inputDivBox {
+    border : 1px solid black;
+    width : 230px;
+    float : left;
+    margin-top: 3px;
+    margin-right: 5px;
+}
+
+.overFlowTaskDiv {
+    overflow-y : scroll;
+    max-height : 100px;
+}
+
+.highlight {
+    background-color: #cfcfcf;
+}

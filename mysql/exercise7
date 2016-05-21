@@ -1,0 +1,153 @@
+Q1: What do different columns in the output of EXPLAIN mean? What possible values can those have? What is the meaning of those values?
+
+1). Columns in explain statement output :-
+  a). id- select identifier. It is a sequential number of select statement 
+  b). select type – it signifies the select type based on whether select is a simple select statement,         or a join or a union between two select statements.
+  c) table – name of table to which row of output refers . It may be simple table name or 
+     <join   m,n>  where m and n are respective id of each row in explain output or it may be <derivedN>   which means that it is derived for row of id N.
+  d). type- it implies type of join used in select statements .
+  e). possible_keys – This indicate the column which mysql can use to search in table. In case  it is null that we have chances to improve performance by using a good index for searching in table.
+  f). key – It indicates the key that mysql actually decided to use.
+  g). key_len – indicates the length of key that mysql decides to use.
+  h). ref – this column shows which column or constant is compared to the index named in key  column to select rows from table
+  I). rows – it indicates the number of rows My SQL believes it must test to execute query.                        
+
+
+Q2: We use EXPLAIN to optimize slow SQL queries used in our application. Lets say we have a comments table in our application that has a foreign key, user_id, referencing to users table. EXPLAINing the query that finds all the comments made by a user gives us following result.
+
+mysql> EXPLAIN SELECT * FROM comments WHERE user_id = 41;
+
++-------------+------+---------------+---------+-------+---------+-------------+
+| select_type | type | key | key_len | ref | rows | Extra |
++-------------+------+---------------+---------+-------+---------+-------------+
+| SIMPLE | ALL | NULL | NULL | NULL | 1002345 | Using where |
++-------------+------+---------------+---------+-------+---------+-------------+
+
+mysql> SELECT count(id) FROM comments;
+
++-----------+
+| count(id) |
++-----------+
+| 1002345 |
++-----------+
+
+
+yes as the ouput of explain statement show here that mysql do not use any key in the given select statement hence  we may make a key for the table to be used in this select statement which will optimize the query.
+
+2.1 The value under 'rows' column in the output of EXPLAIN query and SELECT query after it are same. What does it mean?
+as the value under 'rows' column in the output of EXPLAIN query and SELECT query after it are same it shows that mysql has to look into every row because every row has same user_id attribute value.
+
+2.2 No select query is not optimal . We must first add index to the query which can reduces time for selection .
+
+
+Q3:
+3.1 We decide to index columns in comments table to optimize the SELECT query. What column(s) will you index in which order? Ask the exercise creator for a hint if you are confused.
+
+We must first add a index on user_id , then on commentable_id and then on commentable_type because its of character type hence requiring more searches.
+ 
+Q4:
+4.1 EXPLAIN a SELECT query against one of your databases which employs an INNER JOIN between two tables. What does the output look like? What does the values under different columns mean? Do you get only one row in EXPLAIN's output?
+
+mysql> select * from tastes;
++-------+---------+
+| name  | filling |
++-------+---------+
+| brown | ham     |
+| jones | cheese  |
+| green | beef    |
+| green | turkey  |
+| green | cheese  |
++-------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from sandwiches;
++-----------+-------+---------+-------+
+| location  | bread | filling | price |
++-----------+-------+---------+-------+
+| lincoln   | rye   | ham     |  1.25 |
+| o'neill's | white | cheese  |  1.20 |
+| O'Neill's | whole | ham     |  1.25 |
+| old nag   | rye   | beef    |  1.35 |
+| buttery   | white | cheese  |  1.00 |
+| o'neill's | white | turkey  |  1.35 |
+| buttery   | white | ham     |  1.10 |
+| lincoln   | rye   | beef    |  1.35 |
+| tilakngr  | brown | beef    |  1.70 |
++-----------+-------+---------+-------+
+9 rows in set (0.00 sec)
+
+
+mysql> explain select * from sandwiches join tastes on tastes.filling=sandwiches.filling where name="jones"\G 
+*************************** 1. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: tastes
+         type: ALL
+possible_keys: NULL
+          key: NULL
+      key_len: NULL
+          ref: NULL
+         rows: 5
+        Extra: Using where
+*************************** 2. row ***************************
+           id: 1
+  select_type: SIMPLE
+        table: sandwiches
+         type: ALL
+possible_keys: NULL
+          key: NULL
+      key_len: NULL
+          ref: NULL
+         rows: 9
+        Extra: Using where; Using join buffer
+2 rows in set (0.00 sec)
+
+In this output :-
+a). id means sequence id of select statement which is 1 in our case,
+b). select type is simple for both rows because it doesn't select from join or union.
+c). table shows the tables used in this i.e. tastes and sandwiches.
+d). type - it implies type of join used in this case its ALL because mysql have to search whole table to find out selection in this statement. 
+e). possible_keys are null because no keys id defined by us in both tables .
+f).  key indicates the key which mysql decided to use which is again null because mysql doesnot  use any key in this case
+g). key_len is null as key used by mysql is null
+h). rows show total number of rows mysql must read to execute this select statement which is 5 and 9 respectively in our case
+
+4.2 Form the same select query in above question using a subquery instead of a JOIN. What does the EXPLAIN output look like now? Which query is better and why?
+
+mysql> explain select * from sandwiches,(select * from tastes where name="jones") as t1 where t1.filling = sandwiches.filling\G
+*************************** 1. row ***************************
+           id: 1
+  select_type: PRIMARY
+        table: <derived2>
+         type: system
+possible_keys: NULL
+          key: NULL
+      key_len: NULL
+          ref: NULL
+         rows: 1
+        Extra: 
+*************************** 2. row ***************************
+           id: 1
+  select_type: PRIMARY
+        table: sandwiches
+         type: ALL
+possible_keys: NULL
+          key: NULL
+      key_len: NULL
+          ref: NULL
+         rows: 9
+        Extra: Using where
+*************************** 3. row ***************************
+           id: 2
+  select_type: DERIVED
+        table: tastes
+         type: ALL
+possible_keys: NULL
+          key: NULL
+      key_len: NULL
+          ref: NULL
+         rows: 5
+        Extra: Using where
+3 rows in set (0.00 sec)
+
+Here first query i.e. one using join is better than using subqueries because later will have to look in one extra table i.e. <Derived2> derived from combination of subquery select result and sandwiches table

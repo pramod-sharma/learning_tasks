@@ -1,0 +1,33 @@
+.leftBox {
+  background-color: white;
+  float: left;
+  width: 20%;
+}
+
+#leftBox {
+  width: 90%;
+}
+
+#button {
+  float: left;
+  width: 10%;
+}
+
+#add {
+  width: 100%;
+}
+
+#remove {
+  width: 100%;
+}
+
+.rightBox {
+  background-color: white;
+  float: left;
+  width: 20%;
+}
+
+#rightBox {
+  width: 90%;
+}
+

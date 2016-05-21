@@ -1,0 +1,91 @@
+#header
+{
+  width: 940px;
+  background-color: #b2e7ff;
+  border-bottom : 2px solid #0ab1ff;
+  color: black;
+  text-align: center;
+  font-size: 24px;
+  font-family: Tahoma, Geneva, sans-serif;
+  padding: 30px; 
+}
+
+ul 
+{ padding-left: 20px;
+  color :white;
+}
+
+
+#float
+{
+   overflow: hidden;
+}
+
+#left_section
+{
+  width: 230px;
+  float: left;
+  background-color: #0ab1ff;
+  padding: 25px 10px;
+  padding-bottom: 32767px;
+  margin-bottom: -32767px;
+}
+
+#right_section
+{
+  width: 710px;
+  float: left;
+  background-color: #ededed;
+  padding: 20px;
+  padding-bottom: 32767px;
+  margin-bottom: -32767px;
+}
+
+#left_section_heading
+{
+  font-size: 18px;
+  font-family: Tahoma, Geneva, sans-serif;
+  color: black;
+}
+
+#left_section a
+{
+  font-size: 14px;
+  font-family: Tahoma, Geneva, sans-serif;
+  color: white;
+  /*text-decoration: none;*/
+}
+
+#left_section p
+{
+  font-size: 12px;
+  font-family: Tahoma, Geneva, sans-serif;
+  color: black;
+}
+
+#right_section_heading
+{
+  font-size: 24px;
+  font-family: Tahoma, Geneva, sans-serif;
+  color: black;
+}
+
+#right_section p
+{
+  font-size: 14px;
+  font-family: Tahoma, Geneva, sans-serif; 
+  color: #802525;
+}
+
+#footer
+{
+  clear: left;
+  width: 940px;
+  background-color: #3cff78;
+  border-bottom : 2px solid #0ab1ff;
+  color: black;
+  text-align: center;
+  font-size: 24px;
+  font-family: Tahoma, Geneva, sans-serif;
+  padding: 30px;
+}

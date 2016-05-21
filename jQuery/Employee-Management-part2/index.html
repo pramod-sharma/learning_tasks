@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <link href="task.css" rel="stylesheet" type>
+    </link>
+    <script type="text/javascript" src="lib/jquery-1.5.1.js"></script>
+    </script>
+    <script type="text/javascript" src="lib/jquery-ui.js"></script>
+    </script>
+    <script type="text/javascript" src="drag-n-drop.js"></script>
+    </script>
+    <script type="text/javascript" src="task2.js"></script>
+    </script>
+  </head>
+  <body>
+    <div><label for="searchToDOs"> Enter search term </label>
+      <input type='textbox' class="search" id="searchToDos"></input>
+      <button class="search" value="Search">Search</button>
+    </div><br><br>
+    <div id="roleDiv">Roles
+      <div id='ror' class="roles ror"> ROR Developer
+      </div>
+      <div id='jQuery' class="roles jquery"> JS/JQUERY
+      </div>
+    </div>
+    
+    <div id="employeesDiv">Employees
+        <li>Akhil</li>
+        <li>HK</li>
+        <li>RD</li>
+        <li>Alok</li>
+        <li>Waseem</li>
+    </div>
+    
+    <div id="toDosDiv"> ToDOs
+      <img class="expandAllButton" src="icons/plus.jpg"></img>
+      <img class="collapseAllButton" src="icons/minus.jpg"></img>
+      <div id="toDoRor" class='toDos ror'>ROR Developer
+        <img class="collapseExpandButton" src="icons/minus.jpg"></img>
+      </div>
+      <div id="toDoJquery" class='toDOs jquery'>JS/JQUERY
+        <img class="collapseExpandButton" src="icons/minus.jpg"></img>
+      </div>
+    </div>
+  </body>
+</html>

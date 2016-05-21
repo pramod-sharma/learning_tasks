@@ -1,0 +1,197 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="evaluation.css" type="text/css">
+    </link>
+    <script type="text/javascript" src="lib/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="evaluation.js"></script>
+  </head>
+  <body>
+    <div id="aboveCalculator">
+      <div id="mainHeader"><h2>Nutritional Calculator<h2></div>
+      <div id="buttonsDiv">
+        <input type="button" value="Menu" id="menuButton">
+        <input type="button" value="Kid's Menu" id="kidsMenuButton">
+      </div>
+      <div id="messageHeader">MENU ITEM(Pick One)</div>
+      <div id="menuItemDisplay">
+        <div id="menu" >
+          <input type="radio" name="menu" value="burrito">BURRITO<br>
+          <input type="radio" name="menu" value="burritoBowl">BURRITO BOWL<br>
+          <input type="radio" name="menu" value="tacos">BURRITO TACOS<br>
+          <input type="radio" name="menu" value="salad">BURRITO SALAD<br>
+        </div>
+        <div id="kidsMenu" >
+          <input type="radio" name="kidsmenu" value="smallQuesaddila">SMALL QUESADILLA MEAL<br>
+          <input type="radio" name="kidsmenu" value="singleTaco">SINGLE TACO MEAL<br>
+          <input type="radio" name="kidsmenu" value="twoTaco">TWO TACO KIT<br>
+        </div>
+      </div>
+      <div id="subMenus">
+      <table id="menuSections">
+        <tr id="menuSectionHeader">
+          <th class="salad">Lettuce</th>
+          <th id="tortillasHeader" class="burrito burritoBowl tacos smallQuesaddila singleTaco twoTaco"> TORTILLAS</th>
+          <th id="meatSelectionHeader" class="burrito burritoBowl tacos salad smallQuesaddila singleTaco twoTaco"> SELECT A MEAT</th>
+          <th id="additionalOptionsHeader" class="burrito burritoBowl tacos salad"> ADDITIONAL OPTIONS</th>
+          <th class="smallQuesaddila">1st Side</th>
+          <th class="smallQuesaddila">2nd Side</th>
+          <th class="singleTaco twoTaco">What's Inside(Pick 2 for meat or guacamole,3 if veggie)</th>
+        </tr>
+        <tr id="menuSectionOptions">
+          <td>
+            <div class="salad">
+              <input type="radio" name="lettuce" checked value="RomaineLettuce">Romaine Lettuce<br> 
+            </div>
+            <div class="burrito smallQuesaddila">        
+              <input type="radio" name="flourTortilla" checked value="flourTortilla">Flour Tortilla<br>
+            </div>
+            <div class="tacos singleTaco twoTaco">
+              <input type="radio" name="tortilla" checked value="CrispyTortilla">Cripsy Corn Tortilla<br>
+              <input type="radio" name="tortilla" value="SoftTortilla">Soft Corn Tortilla<br>
+              <input type="radio" name="tortilla" value="SoftFlourTortilla">Soft Flour Tortilla<br>
+            </div>
+            <div class="burritoBowl">No Tortillas here</div>
+          </td>
+          <td id="meatSection">
+            <div class="burrito burritoBowl tacos salad">
+              <input type="checkbox" name="adultmeat" value="chicken">Chicken<br>
+              <input type="checkbox" name="adultmeat" value="steak">Steak<br>
+              <input type="checkbox" name="adultmeat" value="barbacoa">Barbacoa<br>
+              <input type="checkbox" name="adultmeat" value="carnitas">Carnitas<br>
+            </div>
+            <div class="smallQuesaddila">
+              <input type="radio" name="smallmeat" value="nomeat" checked>No Meat Item<br>
+              <input type="radio" name="smallmeat" value="chicken">Chicken<br>
+              <input type="radio" name="smallmeat" value="steak">Steak<br>
+              <input type="radio" name="smallmeat" value="barbacoa">Barbacoa<br>
+              <input type="radio" name="smallmeat" value="carnitas">Carnitas<br>
+              <input type="radio" name="smallmeat" value="guacamole">Guacamole<br>
+              <input type="radio" name="cheese" value="Cheese" checked>Cheese
+            </div>
+            <div class="singleTaco twoTaco">         
+              <input type="radio" name="meat" value="chicken">Chicken<br>
+              <input type="radio" name="meat" value="steak">Steak<br>
+              <input type="radio" name="meat" value="barbacoa">Barbacoa<br>
+              <input type="radio" name="meat" value="carnitas">Carnitas<br>
+              <input type="radio" name="meat" value="guacamole">Guacamole<br>
+              <input id="nomeat" type="radio" name="meat" value="nomeat" checked>No Meat<br>
+            </div>
+          </td>
+          <td class="smallQuesaddila">
+            <input type="radio" value="WhiteRice" checked>White Rice<br>
+            <input type="radio" value="BrownRice">Brown Rice<br>
+          </td>
+          <td class="smallQuesaddila">
+            <input type="radio" value="BlackBeans" checked>Black Beans<br>
+            <input type="radio" value="PintoBeans">pinto Beans<br>
+          </td>
+          <td class="burrito burritoBowl tacos salad">
+            <span class="floatleft">
+              <input type="checkbox" value="WhiteRice">White Rice<br>
+              <input type="checkbox" value="BrownRice"> Brown Rice<br>
+              <input type="checkbox" value="BlackBeans">Black Beans<br>
+              <input type="checkbox" value="PintoBeans">Pinto Beans<br>
+              <input type="checkbox" value="FajitaVegetables">Fajita Vegetables<br>
+              <input type="checkbox" value="FreshTomatoSalsa">Fresh tomato Salsa<br>
+              <input type="checkbox" value="Vinaigrette">Vinaigrette
+            </span>
+            <span class="floatright">
+              <input type="checkbox" value="TomatiloGreenChilliSalsa">Tomatilo Green Chilli Salsa<br>
+              <input type="checkbox" value="TomatiloRedChilliSalsa"> Tomatilo Red Chilli Salsa<br>
+              <input type="checkbox" value="SourCream">Sour Cream<br>
+              <input type="checkbox" value="Cheese">Cheese<br>
+              <input type="checkbox" value="Guacamole">Guacamole<br>
+              <input type="checkbox" value="RomaineLettuce">Roman Lettuce<br>
+              <input type="checkbox" value="RoastedChilliCornSalsa">Roasted Chilli Corn Salsa
+            </span>
+          </td>
+          <td class="WhatsInside singleTaco twoTaco">
+            <span class="floatleft">
+              <input type="checkbox" value="WhiteRice">White Rice<br>
+              <input type="checkbox" value="BrownRice"> Brown Rice<br>
+              <input type="checkbox" value="BlackBeans">Black Beans<br>
+              <input type="checkbox" value="PintoBeans">Pinto Beans<br>
+              <input type="checkbox" value="FajitaVegetables">Fajita Vegetables<br>
+              <input type="checkbox" value="FreshTomatoSalsa">Fresh tomato Salsa
+            </span>
+            <span class="floatright">
+              <input type="checkbox" value="TomatiloGreenChilliSalsa">Tomatilo Green Chilli Salsa<br>
+              <input type="checkbox" value="TomatiloRedChilliSalsa"> Tomatilo Red Chilli Salsa<br>
+              <input type="checkbox" value="SourCream">Sour Cream<br>
+              <input type="checkbox" value="Cheese">Cheese<br>
+              <input type="checkbox" value="RomanLettuce">Romaine Lettuce<br>
+              <input type="checkbox" value="RoastedChilliCornSalsa">Roasted Chilli Corn Salsa
+            </span>
+          </td>
+        </tr>     
+    </table>
+    <div id="adultMenuChips" class="burrito burritoBowl tacos salad"> ADD CHIPS AND SALSA <br>
+      <span>
+        <input type="checkbox" value="Chips">Chips<br>
+        <input type="checkbox" value="Chips&Guacamole">Chips & Guacamole<br>
+        <input type="checkbox" value="Chips&Tomatillo-GreenChilliSalsa">Chips & Tomatillo-Green Chilli Salsa<br>
+      </span>
+      <span>
+        <input type="checkbox" value="Chips&FreshTomatoSalsa">Chips & Fresh Tomato Salsa<br>
+        <input type="checkbox" value="Chips&RoastedChilli-CornSalsa">Chips & Roasted Chilli-Corn Salsa<br>
+        <input type="checkbox" value="Chips&Tomatillo-RedChilliSalsa">Chips & Tomatillo-Red Chilli Salsa<br>
+      </span>
+      <div id="clearFloat"></div>
+    </div>
+    <div id="chooseRiceDiv" class="singleTaco twoTaco"><h4>CHOOSE A SIDE OF RICE</h4>
+      <input type="radio" name="riceSelection" value="WhiteRice" checked>White Rice<br>
+      <input type="radio" name="riceSelection" value="BrownRice">Brown Rice<br>
+    </div>
+    <div id="kidchips" class="smallQuesaddila singleTaco twoTaco"><h4>CHIPS(Kid's Menu Comes with chips)</h4>
+      <input type="radio" name="chipSelection" value="Chips" checked>Chips
+    </div>
+  </div>
+</div>
+  <div id="nutritionalTable"> 
+  <table id="nutrition">
+    <thead>
+    <tr>
+      <th class="ITEM">ITEM</th>
+      <th class="CALORIES">CALORIES</th>
+      <th class="CAL FROM FAT">CAL FROM FAT</th>
+      <th class="TOTAL FAT(g)">TOTAL FAT(g)</th>
+      <th class="SATURATED FAT(g)">SATURATED FAT(g)</th>
+      <th class="TRANS FAT(g)">TRANS FAT(g)</th>
+      <th class="CHOLESTEROL(mg)">CHOLESTEROL(mg)</th>
+      <th class="SODIUM(mg)">SODIUM(mg)</th>
+      <th class="CARBOHYDRATES(g)">CARBOHYDRATES(g)</th>
+      <th class="DIETARY FIBER(g)">DIETARY FIBER(g)</th>
+      <th class="SUGAR(g)">SUGAR(g)</th>
+      <th class="PROTEIN(g)">PROTEIN(g)</th>
+      <th class="VITAMIN A(%DV)">VITAMIN A(%DV)</th>
+      <th class="VITAMIN C(%DV)">VITAMIN C(%DV)</th>
+      <th class="CALCIUM(%DV)">CALCIUM(%DV)</th>
+      <th class="IRON(%DV)">IRON(%DV)</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot>
+    <tr id="summationRow">
+      <td>TOTALS</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    </tfoot>
+  </table>
+</div>
+  </body>
+</html>

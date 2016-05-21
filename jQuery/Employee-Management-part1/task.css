@@ -1,0 +1,84 @@
+/* Common property of all Divs*/
+#rolediv{
+    margin-left: 50px;
+    border : 1px solid #cfcfcf;
+    float:left;
+    text-align: center;
+}
+
+#toDosDiv {
+    border : 1px solid #cfcfcf;
+    text-align: center;
+    float : right;
+}
+
+#employeesDiv {
+    margin-left: 28%;
+    position : fixed;
+    border : 1px solid #cfcfcf;
+    float:left;
+    text-align: center;
+}
+/*Property of roles and employee Div*/
+#roleDiv,#employeesDiv {
+    width : 20%; 
+}
+
+li {
+    list-style: none;
+    text-align : left;
+    padding : 2px 0px 2px 5px;
+    border :1px solid black;
+}
+
+
+/* Roles Div Properties*/
+div.roles {
+    border : 1px solid black;
+    border-collapse : collapse;
+    width: 100%;
+}
+
+/* To Dos Div */
+div.toDOs {
+    border : 1px solid black;
+    border-collapse : collapse;
+    width: 100%;   
+}
+
+
+#toDosDiv {
+    width : 40%;
+}
+
+div .toDos img {
+    width : 15px;
+    height : 15px;
+    float : right;
+}
+
+img.crossIcon {
+    width : 20px;
+    height : 25px;
+    position : absolute;
+}
+
+/* Dynamic elements Classes*/
+.taskDiv {
+    float :left;
+    margin : 10px 0px;
+    width : 70%;
+    height : 60px;
+    border : 1px solid black
+}
+
+.toDoList {
+    width : 100px;
+    float : left;
+    border : 1px solid black;
+    margin : 10px 30px 0px 10px;
+}
+
+.clearFloatDiv {
+    clear : left;
+}

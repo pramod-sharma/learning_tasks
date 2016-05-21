@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <script type="text/javascript" src="Exercise7.js"></script>
+    <link rel="stylesheet" type="text/css" href="Exercise7.css">
+  </head>
+  <body>
+    <div class="leftBox">
+      <select id="leftBox" size=5 multiple="yes">
+        <option>India</option>
+        <option>AmeRica</option>
+        <option>japan</option>
+        <option>UAE</option>
+        <option>Russia</option>
+        <option>Srilanka</option>
+      </select>
+    </div>
+    <div id = "button"> 
+      <table>
+        <tr>
+          <td><input type="button" id="add" onclick="addRemove('leftBox','rightBox')" value="Add"></td>
+        </tr>
+        <tr>
+          <td><input type="button" id="remove" onclick="addRemove('rightBox','leftBox')" value="Remove"></td>
+        </tr>
+      </table>
+    </div>
+    <div class="rightBox">
+      <select id="rightBox" size="5" multiple="yes">
+      </select>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <script type="text/javascript">
+    /*jslint white: true, browser: true, plusplus: true */
+    function actionAll(bool) {"use strict";
+      var checkBox = document.getElementsByName("colors"), i;
+        for (i = 0; i < checkBox.length; i++) {
+          checkBox[i].checked = bool;
+        }
+    }
+    </script>
+  </head>
+  <body>
+    <form>
+      <input type="checkbox" name="colors" value="Red">Red<br>
+      <input type="checkbox" name="colors" value="Green">Green<br>
+      <input type="checkbox" name="colors" value="Yellow">Yellow<br>
+      <input type="checkbox" name="colors" value="White">White<br>
+      <input type="checkbox" name="colors" value="Black">Black<br> 
+    </form>
+    <a id="checkAll" onclick="actionAll(true)" style="cursor:pointer">Check All</a><br><br>
+    <a id="uncheckAll" onclick="actionAll(false)" style="cursor:pointer">UnCheck All</a>
+  </body>
+</html>

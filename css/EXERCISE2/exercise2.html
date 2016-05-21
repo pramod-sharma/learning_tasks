@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+  <head>
+    <link rel="stylesheet" type="text/css" href="exercise2.css">
+  </head>
+
+  <body>
+    <div id="header"> This is the header
+    </div>
+    <div id="float">
+      <div id="left_section">
+        <div id="left_section_heading">Fixed section of 250px width
+        </div><br>
+        <ul>
+          <li><a>Navigation Link 1</a></li><br>
+          <li><a>Navigation Link 2</a></li><br>
+          <li><a>Navigation Link 3</a></li><br>
+          <li><a>Navigation Link 4</a></li><br>
+        </ul>
+        <p>Lorpsem ipsem dolor sit amet,consetecrctur adispicing elit,sed eu </p>
+      </div>
+
+      <div id="right_section">
+        <div id="right_section_heading">Fixed section of 750px width including padding and margins
+        </div><br>
+        <p>Lorpsem ipsem dolor sit amet,consetecrctur adispicing elit,sed eu
+        Tutorial 1 - Floating an image to the right - all steps combined
+
+        Step 1 - Start with a paragraph of text and an image
+
+        For this exercise, we want to force an image over to the right to allow the content to flow alongside it. We also want to add margins to the left and bottom sides of the image to push the content away. Finally, we want to add a border around the image. We start with an image sitting inside a paragraph of text.
+
+        Step 2 - Apply float: right to the image
+
+        To force the image over to the right edge, "float: right" is applied to the image using a class selector. In this case, the name of the class is ".floatright" but any name can be used. No width is needed in this instance as the image has an intrinsic width. If this were a div, a width would have to be used.
+
+        .floatright { float: right; }
+        Step 3 - Add margin
+
+        Margins can be added to push the content away from the left and bottom sides of the image.
+
+        If Netscape 4 is a target browser, then longhand rules should be used (such as "margin-left: 20px;" and "margin-bottom: 20px;"), as this browser badly misinterprets shorthand rules associated with margins.
+
+
+        </p>
+      </div>
+    </div>
+    <div id="footer">This is the footer
+    </div>
+  </body>
+</html>

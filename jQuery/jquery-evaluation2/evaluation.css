@@ -1,0 +1,128 @@
+/*Above Calculator Divs Alignment*/
+#aboveCalculator {
+  width : 70%;
+  margin-left : 15%;
+  min-height : 200px;
+  padding-top: 
+}
+
+h2 {
+  margin : 0px;
+}
+
+#mainHeader {
+  margin-top: 0px;
+  color : red;
+  background-color: #cfcfcf;
+}
+
+#buttonsDiv{
+  margin-bottom: 10px;
+}
+
+#messageHeader {
+  color : blue;
+  background-color: #cfcfcf;
+}
+
+#menuItemDisplay {
+  padding-top: 10px;
+  padding-bottom: 30px;
+}
+
+#nutrition th {
+  font-size: 1Opx;
+}
+/* To hide child menu in starting*/
+#kidsMenu {
+  display : none;
+}
+
+#subMenus {
+  display : none;
+}
+
+#submenuItemHeader {
+  background-color: green;
+}
+
+#submenuItemHeader span {
+  min-width : 150px;
+}
+
+#adultMenuChips {
+  background-color: yellow;
+}
+
+#adultMenuChips span {
+  float : left;
+  margin-right: 20px;
+}
+
+#clearFloat {
+  clear : both;
+}
+
+#tortilla,#selectMeat,#additionalOptions {
+  border-top: 1px dashed black;
+  border-right: 1px dashed black;
+  border-left: none;
+  border-bottom : none;
+  height : fill-parent;
+  margin : 0px;
+}
+
+#menuSections {
+border : none;
+}
+
+
+#menuSectionHeader th {
+  border-top: 1px dashed black;
+  border-right: 1px dashed black;
+  border-left : none;
+  border-bottom: none;
+}
+
+#menuSectionOptions td{
+  border-right: 1px dashed black;
+  border-left : none;
+  border-bottom: none;
+  border-top: none;
+  vertical-align: top;
+}
+
+h4{
+  margin : 0px;
+}
+
+#chooseRiceDiv{
+  background-color : #cfcfcf;
+  margin-bottom : 20px;
+}
+
+.floatright {
+  float : right;
+}
+
+.floatleft {
+  float: left;
+}
+
+/* Calculator table Adjustment*/
+table {
+  width : 100%;
+  border : 1px solid black;
+}
+
+th {
+  border : 1px solid black;
+}
+
+td {
+  border : 1px solid black;
+}
+
+.sampleRow {
+  display : none;
+}

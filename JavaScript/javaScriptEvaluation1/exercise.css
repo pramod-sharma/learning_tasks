@@ -1,0 +1,15 @@
+#displayName {
+  float:left;
+}
+
+#selectedNameDisplay {
+  width:150px;
+}
+
+#divTextNSuggestBox {
+  float:left;
+}
+
+#selectBox {
+  display :none;
+}
