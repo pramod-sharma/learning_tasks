@@ -1,0 +1,20 @@
+
+<div class="page-header">
+	<span>
+  	<h1><%=t '.title', :default => "Projects" %></h1>
+  </span>
+  <span class="float-right">
+  	<%= link_to 'New Project', new_project_path, id: 'new-project', class: 'btn btn-primary' %>
+  </span>
+</div>
+
+<div id="content">
+  <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+      <li class="active"><a href="#running_projects" data-toggle="tab">Running</a></li>
+      <li><a href="#confirmed_projects" data-toggle="tab">Confirmed</a></li>
+      <li><a href="#potential_projects" data-toggle="tab">Potential</a></li>
+      <li><a href="#completed_projects" data-toggle="tab">Completed</a></li>
+  </ul>
+
+  <%= render :partial => 'shared/project_partial', :locals => { :hash => {}} %>
+</div>

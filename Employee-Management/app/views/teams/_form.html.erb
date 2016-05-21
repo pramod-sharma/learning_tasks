@@ -1,0 +1,16 @@
+<%= form_for @team, :html => { :class => 'form-horizontal' } do |f| %>
+  <% if @team.errors.any? %>
+    <%= render( :partial => 'shared/errors', :object => @team.errors ) =%>
+  <% end %>
+  <div class="control-group">
+    <%= f.label :name, "Name", :class => 'control-label cumpolsary-field' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'text_field' %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit button_title, :class => 'btn btn-primary' %>
+    <%= link_to 'Cancel', teams_path, class: "btn" %>
+  </div>
+<% end %>

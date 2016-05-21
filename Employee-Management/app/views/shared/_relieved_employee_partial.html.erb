@@ -1,0 +1,53 @@
+<% key, employees = relieved_employees(hash) %>
+<% model_class ||= Employee %>
+<% if employees.any? %>
+
+  <table class="table table-striped" >
+    <thead>
+      <tr>
+        <% if employee_listing_page?(key) %>
+          <th><%= "Admin" %></th>
+        <% end %>
+        <th><%= "Employee Name" %></th>
+        <th><%= "Designation" %></th>
+        <% if employee_listing_page?(key) %>
+          <th><%= "Team" %></th>
+        <% end %>
+        <% if team_show_page?(key) || employee_listing_page?(key) %>
+          <th><%= "Team Lead" %></th>
+        <% end %>
+        <% if project_show_page?(key) %>
+          <th><%= "Joined On" %> </th>
+          <th><%= "Relieved On" %> </th>
+          <th><%= "Project Involvement" %> </th>
+        <% else %>
+          <th><%= "Involvement %" %> </th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% employees.each do |employee| %>
+        <tr id="<%= employee.id %>" >
+          <% if employee_listing_page?( key ) %>
+            <td><%= check_box_tag 'is_admin', employee.id, ( employee.is_admin || false ), class: 'admin_checkbox', data: { url: update_admin_employees_path } %> <%= image_tag 'progress_bar.gif', class: 'progress_bar' %></td>
+          <% end %>
+          <td><%= link_to employee.name, employee_path( employee ) %></td>
+            <td><%= Employee::DESIGNATIONS.key( employee.designation ) %></td>
+          <% if employee_listing_page?( key ) %>  
+            <td><%= employee.team.name %></td>
+          <% end %>
+          <% if team_show_page?( key ) || employee_listing_page?( key ) %>
+            <td><%= team_lead(employee)  %></td>
+          <% end %>
+          <% if project_show_page?( key ) %>
+            <td><%= joining_date( employee.id, hash[:project_id] ) %> </td>
+            <td><%= relieving_date( employee.id, hash[:project_id] ) %> </td>
+            <td> <%= "#{ project_involvement( employee, hash ) }%" %>
+          <% else %>
+            <td> <%= "#{ total_involvement( employee, hash ) }%" %> </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<%end%>

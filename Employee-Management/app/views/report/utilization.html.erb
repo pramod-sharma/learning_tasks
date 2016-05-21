@@ -1,0 +1,127 @@
+<div id="content">
+  <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#pie_report_container" data-toggle="tab"> Pie Chart </a></li>
+    <li><a href="#utilization_container_div" data-toggle="tab">Utilization Table</a></li>
+    <li><a href="#relieving_employee_container_div" data-toggle="tab"> Availability </a></li>
+    <li><a href="#monthly_billing_div" data-toggle="tab"> Monthly Billing </a></li>
+    <li><a href="#notification_div" data-toggle="tab"> Notifications </a></li>
+    <li class='pull-right'><button type="button" class='btn-small btn-primary report-help-button' data-toggle="button">Help</button></li>
+  </ul>
+
+  <div id="my-tab-content" class="tab-content">
+    <!--Pie Charts Div-->
+    <div id="pie_report_container"  class="tab-pane">
+      <div class='alert alert-info alert-block hide' >
+        <h3>Information about Pie Report Generation!</h3>
+        <ul>
+          <li>We have Department pie charts as base chart which shows cumulative involvement and availability of all the employees belonging to that particular department(viz. IOS, RAILS). In case any team member have involvement greater than 100% than his/her involvement will be counted as 100% only
+          </li>
+          <li>Inside every department we have team lead based teams where team leads are those who do not have a team lead. We have calculated the involvement and availability on the basis of the availability and involvement of the person as well his/her subordinates. And incase we have any subordinates for the above mentioned subordinate than their involvement is as well counted.
+          </li>
+          <li>Inside every team lead in above case we may/may not have subordinates. Who further may or may not have subordinates making a hierarchcal structure.
+          </li>
+          <li>A team lead of X department may have member from Y department as his subordinate. Hence though the subordinate's involvement is not considered while calculating department's involvement, but it will be considered in case calculating his team lead's team involvement
+          </li>
+        </ul>            
+      </div>
+      <ul class="breadcrumb">
+        <li class="active"><a href="#">Vinsol</a> </li>
+      </ul>
+      <div class="control-group form-horizontal">
+        <%= label_tag :pie_report_date, 'Team Utilization As On', class: 'control-label', id: 'involvement-label' %>
+        <div class="controls">
+          <%= text_field_tag :pie_report_date, format_date( @report_start_date ), class: 'date-field form-control ', data: { url: pie_report_report_index_path } %> <%= image_tag 'progress_bar.gif', class: 'progress_bar' %>
+        </div>
+      </div>
+      <div id="charts_div" data-key="team_id"></div>
+    </div><!--Pie Charts Div-->
+
+    <!--Utilization Table Div -->
+    <div id="utilization_container_div"  class="tab-pane">
+      <div class='alert alert-info alert-block hide' >
+        <h3>Information about Utilization Table Generation!</h3>
+        <ul>
+          <li>We have seperated utilization on the basis of department
+          </li>
+          <li>While calculating involvement we are not conidering potential projects. Hence only assignment in non-potential projects for the selected date is conidered.
+          </li>
+        </ul>   
+      </div>
+      <div class="control-group form-horizontal controls-row">
+        <%= label_tag :utilization_date, 'Team Utilization As On', class: 'control-label' %>
+        <div class="controls span3">
+          <%= text_field_tag :utilization_date, format_date( @report_start_date ), class: 'date-field utilization_date form-control ', data: { url: utilization_table_report_index_path } %> <%= image_tag 'progress_bar.gif', class: 'progress_bar' %>
+        </div>
+        <span class='span3'>
+          <%= check_box_tag 'toggle' %><%= label_tag 'toggle',  'Display only available employees' %>
+        </span>
+      </div>
+      <div id="utilization_tables_div" class="tab-pane" >
+        <%= render :partial => 'utilization_table' %>
+      </div>
+    </div><!--Utilization Table Div -->
+
+
+    <!--Reliving Employee Div -->
+    <div id="relieving_employee_container_div"  class="tab-pane">
+      <div class='alert alert-info alert-block hide' >
+        <h3>Information about Availability Table Generation!</h3>
+        <ul>
+          <li>We are displaying only those employees who have availability greater than 0% here. Hence those employees who have involvement greater than 100% even after relieving from project are not displayed here.
+          </li>
+          <li>This table shows the employees who are relieving from a project in between the given interval or they have certain availability i.e. total involvement of employee is less than 100%
+          </li>
+        </ul>    
+      </div>
+
+      <%= form_tag relieving_employees_report_index_path, class: "form-inline", remote: true,
+        id: 'availability_utilization' do%>
+        <%= label_tag :from_date, 'From date', class: 'control-label' %>
+          <%= text_field_tag :from_date, format_date( @report_start_date ), class: 'date-field form-control ' %>
+        <%= label_tag :till_date, 'To date', class: 'control-label' %>
+          <%= text_field_tag :till_date, format_date( @report_start_date >> 1 ), class: 'date-field form-control '%>
+        <%= button_tag "Display", id: 'relieving_employee_listing', data: { url: relieving_employees_report_index_path }%> 
+      <% end %> <%= image_tag 'progress_bar.gif', class: 'progress_bar' %>
+
+      <div id="relieving_employee_table" >
+        <% employees_table, header_fields = relieving_employee_list( report_start_date.to_s, ( report_end_date ).to_s ) %>
+        <%= render :partial => 'employee_list', :locals => { :employees_table => employees_table, :header_fields => header_fields } %>
+      </div>
+    </div><!-- Relieving Employee Div-->
+
+    <div id="monthly_billing_div"  class="tab-pane">
+      <div class='alert alert-info alert-block hide' >
+        <h3>Information about Monthly Billing Generation!</h3>
+        <ul>
+          <li>Monthly billing is calculated on the basis of monthly billing created for the project.  
+          </li>
+          <li>* signifies the monthly billings for potential projects.
+          </li>
+          <li>Project revenue signifies the total of monthly billing generated for that particular month for all projects excluding billings for potentail projects.
+          </li>
+          <li>Project potential revenue signifies the total of monthly billing generated for that particular month for all projects including billings for potentail projects.
+          </li>
+        </ul>   
+      </div>
+      <%= label_tag :billing_date, 'Billing Date', class: 'control-label' %>
+      <%= text_field_tag :billing_date, format_date( @report_start_date ), class: 'form-control ' %>
+      <%= image_tag 'progress_bar.gif', class: 'progress_bar' %>
+      <%= button_tag 'Details', id: 'revenue_details', class: 'pull-right', data: { url: revenue_report_index_path } %>
+      <div class="clear_float"></div>
+      <div id="billings_table">
+        <%= render :partial => 'billings' %>
+      </div>
+    </div>
+
+    <div id="notification_div"  class="tab-pane">
+      <table class="table table-hover table-bordered">
+        <% notifications = generate_notifications.sort_by { |notification| notification[:message_date] } %>
+        <% notifications.each do |notification| %>
+          <tr>
+            <td><%= notification[:message] %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>

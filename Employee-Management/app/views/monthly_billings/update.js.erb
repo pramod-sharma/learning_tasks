@@ -1,0 +1,5 @@
+$('.row-fluid .alert-error').remove();
+$('#monthlyBilling #<%= params[:id] %> .save_button').hide();
+$('#monthlyBilling #<%= params[:id] %> .edit_button').show();
+$('#monthlyBilling #<%= params[:id] %> .cancel_button').hide();
+$('#monthlyBilling #<%= params[:id] %> .amount').html('<%= "$#{ @bill.amount }" %>');  

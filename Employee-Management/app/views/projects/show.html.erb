@@ -1,0 +1,106 @@
+<%- model_class = Project -%>
+<div class="page-header">
+  <div id="title">
+    <h1 id="project_name"><%=t '.title', :default =>  @project.name.capitalize %></h1>
+  </div>
+  <div id="buttons">
+    <% if @project.active %>
+      <%= link_to 'Edit', edit_project_path(@project), :class => 'btn' %>
+    <% end %>
+    <%if @project.potential? %>
+      <%= link_to 'Delete', project_path(@project), :method => 'delete', :data => { :confirm => "Want to delete #{ @project.name } project?" }, :class => 'btn btn-danger' %>  
+    <% end %>
+  </div>
+  <div id="clear_float"></div>
+  <dl class="dl-horizontal">
+    <dt><strong><%= label_for_project_start_date %>:</strong></dt>
+    <dd><%= format_date( @project.start_date ) %></dd>
+    <dt><strong><%= label_for_project_end_date %>:</strong></dt>
+    <dd><%= format_date( @project.end_date ) %></dd>
+    <dt><strong><%= "State" %>:</strong></dt>
+    <dd><%= Project::STATE.key( @project.state ) %></dd>
+  </dl>
+</div>
+
+<div id="content">
+  <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#current-assignment" data-toggle="tab"> Project Team</a></li>
+    <li><a href="#monthlyBilling" data-toggle="tab">Monthly Billing</a></li>
+    <li><a href="#historyTab" data-toggle="tab">History</a></li>
+  </ul>
+  <div id="my-tab-content" class="tab-content">
+    <div class="tab-pane row" id="current-assignment">
+      <%= form_for ProjectAssignment.new , :html => { :class => 'form-horizontal'}, remote: true do |f| %>
+        <span class="span2">
+          <%= select_tag 'project_assignment[employee_id]', options_for_select(employee_options, :prompt => "Select Employee" ), class: "span12" %>
+        </span>
+        <span class="span2">
+          <%= f.text_field :join_from, :class => 'date-field span12', :value => format_date(Date.current) %>
+        </span>
+        <span class="span2">
+          <%= f.text_field :relieving_date, :class => 'date-field span12', :placeholder => 'Relieving Date'%>
+        </span>
+        <span class="input-append span2">
+          <%= f.text_field :involvement, :class => 'text_field span12', :placeholder => 'Involvement' %>
+          <span class="add-on">%</span>
+        </span>
+        <%= hidden_field_tag('project_assignment[project_id]', @project.id) %>
+        <%= image_tag 'progress_bar.gif', class: 'progress_bar' %>
+        <span class="span2">
+          <%= f.submit "Assign Project", :class => 'btn btn-primary employee_assignment_button', data: { url: new_project_assignment_path }  %>
+        </span>
+      <%end%>
+      <% assignments = current_asignments( @project.id ) %>
+      <div id="current_employees" class="row">
+        <%= render :partial => 'shared/project_assignment', :locals => { :referer_page => 'current_assignment', :assignments => assignments } %>
+      </div>
+  
+    </div>
+
+    <div class="tab-pane" id="monthlyBilling">
+      <%= form_tag project_monthly_billings_path( project_id: @project.id ) , class: "form-inline", remote: true do%>
+        <%= select_tag 'month', options_for_select( Date::MONTHNAMES.compact, Date::MONTHNAMES.compact[(Date.current.month - 1)] ), class: "span2" %>
+        <%= select_tag 'year', options_for_select(ProjectsHelper::Year, Date.current.year ), class: "span2" %>
+        <span class="input-append">
+          <%= text_field_tag 'amount', nil, :class => 'text_field span6', :placeholder => 'Amount' %>
+          <span class="add-on">USD</span>
+        </span>
+        <%= button_tag "Save", :class => 'btn btn-primary monthly-billing-button' %> 
+      <% end %>
+      <div id="bill_list">
+        <%= render template: 'monthly_billings/list' %>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="historyTab">
+      <% assignments = previous_asignments( @project.id ) %>
+      <%= render :partial => 'shared/project_assignment', :locals => { :referer_page => 'previous_assignment', :assignments => assignments } %>
+    </div>
+  </div>
+  <div id="relieve_employee_modal" class="modal hide fade relieving_modal" tabindex="-1" >
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel"> Joining date must be before or equal to relieving date</h3>
+    </div>
+    <div class="modal-body form-horizontal">
+      <div class="control-group">
+        <%= label_tag :relieving_date, "New Relieving Date", :class => 'control-label cumpolsary-field' %>
+        <div class="controls">
+          <%= text_field_tag :relieving_date, nil, :class => 'date-field', :value => format_date(Date.current) %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= label_tag :involvement, "New Involvement", :class => 'control-label cumpolsary-field' %>
+        <div class="controls">
+          <span class="input-append span5">
+            <%= text_field_tag :involvement, nil, :class => 'text_field span6', :placeholder => 'Involvement' %><span class="add-on">%</span>
+          </span>
+        </div>
+      </div>
+      <div class="form-actions">
+        <%= link_to 'Relieve', '#', class: 'btn btn-small btn-danger relieve-employee-button' %>
+      </div>
+    </div>
+  </div>
+</div>
+

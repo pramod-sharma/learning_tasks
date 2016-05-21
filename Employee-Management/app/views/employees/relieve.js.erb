@@ -1,0 +1,8 @@
+<% if @employee.errors.full_messages.empty? %>
+	<% flash[:notice] = "Employee #{ @employee.name } successfully deactivated " %>
+	window.location.href = '<%= employee_path(@employee) %>';
+<% else %>
+	$('.row-fluid > .span11 .alert').remove();
+	$('#deactivate_employee_modal').modal('hide');
+	$('.row-fluid > .span11').prepend('<%= j render template: 'employees/errors' %>');
+<% end %>

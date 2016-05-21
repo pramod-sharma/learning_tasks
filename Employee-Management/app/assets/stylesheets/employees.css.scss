@@ -1,0 +1,68 @@
+.page-header #title{
+	float: left;
+}
+
+.page-header #buttons{
+	float: right;
+}
+
+.page-header #clear_float{
+	clear: both;
+}
+
+.inline-label{
+	display: inline;
+}
+
+.page-header{
+	margin-top: -15px;
+}
+
+.table td{
+	padding: 5px;
+	vertical-align: middle;
+}
+
+img.progress_bar{
+	display: none;
+}
+
+img.involvement_progress_bar{
+	display: none;
+}
+
+.field_with_errors{
+  background-color: white;
+  display: block;
+  padding: 0px;
+}
+
+.row{
+	margin-left: 0px;
+}
+
+.involvement-details{
+	text-align: right;
+	padding-right: 30px;
+}
+
+#current-assignment [class*='span']{
+	margin-left: 10px;
+}
+
+#current-assignment .input-append{
+	margin-right: 35px;
+}
+
+.new-employee-btn{
+	margin-top: 10px;
+}
+
+div.page-header{
+	padding-bottom: 0px;
+	margin-bottom: 10px;
+}
+
+.toggle-employees-list{
+	margin-left: 20px;
+}

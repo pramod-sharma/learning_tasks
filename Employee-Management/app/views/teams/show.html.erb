@@ -1,0 +1,15 @@
+<%- model_class = Team -%>
+<div class="page-header dl-horizontal">
+	<div id="title">
+    <h1><%=t '.title', :default => @team.name.humanize.titleize %></h1>
+  </div>
+  <div id="buttons">   
+      <%= link_to 'Back', teams_path, class: "btn" %>
+		  <%= link_to 'Edit', edit_team_path(@team), class: "btn" %>
+		  <%- link_to 'Delete', team_path(@team), :method => 'delete',:data => { :confirm =>  "Want to delete #{@team.name} team?" }, class: 'btn btn-danger' -%>
+  </div>
+  <div id="clear_float"></div>
+</div>
+
+
+<%= render :partial => 'shared/employee_partial', :locals => {:model_class => Employee, :hash => {:team_id => @team.id, :involvement_date => Date.current } } %>

@@ -1,0 +1,21 @@
+
+<% #FIXME_NISH Please move this in assets folder. %>
+  <% #Fixed %>
+<div class='pull-right'><button type="button" class='btn-small btn-primary report-help-button' data-toggle="button">Help</button></div>
+<%= form_tag revenue_projection_report_index_path, class: "form-inline", method: 'get', remote: true do%>
+  <%= label_tag :projection_start_date, 'From date', class: 'control-label' %>
+    <%= text_field_tag :projection_start_date, format_date( ( Date.current - 3.month ).beginning_of_month ), class: 'date-field form-control ' %>
+  <%= label_tag :projection_end_date, 'To date', class: 'control-label' %>
+    <%= text_field_tag :projection_end_date, format_date( ( Date.current + 4.month ).beginning_of_month ), class: 'date-field form-control '%>
+  <%= button_tag "Update", id: 'relieving_employee_listing', data: { url: relieving_employees_report_index_path }%> 
+<% end %><%= image_tag 'progress_bar.gif', class:'progress-bar' %>
+<div class='alert alert-info alert-block hide' >
+  <h3>Information about Revenue Projection Generation!</h3>
+  <ul>
+    <li>Potential Revenue is calculated on the basis of total potential revenue from revenue projection of all employees for that particular month. In case revenue projection for that particular month is not available than latest previous revenue projection is considered.
+    </li>
+    <li>Actual Revenue is calculated on the basis of total monthly billing generated for that particular month from all non-potential and uncompleted projects.
+    </li>
+  </ul>
+</div>
+<div id="line_chart_div" class='pull-left'></div>

@@ -1,0 +1,10 @@
+$('#employee_list').html( '<%== j render :partial => 'shared/employee_partial', :locals => {:hash => {  :involvement_date => @report_date, :order => params[:order] } } %>' );
+<% if params[:order] == 'decreasing' %>
+	$('#involvement-column').data('order', 'increasing');
+	$('#involvement-column .decreasing').show();
+	$('#involvement-column .sorter').hide();
+<% elsif params[:order] == 'increasing' %>
+	$('#involvement-column').data('order', 'decreasing');
+	$('#involvement-column .increasing').show();
+	$('#involvement-column .sorter').hide();
+<% end %>

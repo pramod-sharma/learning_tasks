@@ -1,0 +1,56 @@
+<div class='alert alert-info alert-block hide' >
+  <h3>Information about Project Based Revenue Generation!</h3>
+  <ul>
+    <li>Here we are diplaying revenue on the basis of projects.  
+    </li>
+    <li>Project's monthly billing signifies the monthly billing generated for project for that particular month
+    </li>
+    <li>Company's total revenue is caluculated as the sum of all projects including potentail projects as well.
+    </li>
+  </ul>
+</div>
+<table id="projectBasedRevenueTable" class="table table-bordered revenue_table" >
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Project Involvement %</th>
+      <th>Join On</th>
+      <th>Relieving On</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% company_total_billing = 0 %>
+    <% Project.find_each do |project| %>
+      <% current_assignments = project.current_assignments_on( revenue_date ) %>
+      <% if current_assignments.any? %>
+        <tr>
+          <td colspan='6' class="title_row"><%= link_to project.name, project_path( project ), class: 'report_link' %></td>
+        </tr>
+        <% current_assignments.each do |assignment| %> 
+          <tr>
+            <td> <%= link_to assignment.employee.name, employee_path( assignment.employee_id ) %> </td>
+            <td> <%= number_to_percentage( assignment.involvement, precision: 0 ) %> </td>
+            <td> <%= format_date( assignment.join_from  ) %> </td>
+            <td> <%= format_date( assignment.relieving_date ) %> </td>
+          </tr>
+        <% end %>
+        <tr>
+          <% bill = project.monthly_billings.find_by( billing_date: revenue_date.beginning_of_month ) %>
+          <% company_total_billing += ( bill.try(:amount) || 0 ) %>
+          <% if bill %>
+            <td colspan='6'> <%= "#{revenue_date.to_s( :string_month )}'s Revenue is #{ bill.amount }"  %> </td>
+          <% else%>
+            <td colspan='6'> <%= "No billing for #{revenue_date.to_s(:string_month)} month "  %> </td>
+          <% end %>
+        </tr>
+        <tr>
+          <td colspan='6' class="break_row"></td>
+        </tr>
+      <% end %>
+    <% end %>
+    <tr>
+      <td colspan='6'> <%= " Total Revenue for #{revenue_date.to_s( :string_month )} is #{ company_total_billing }"  %> </td>
+    </tr>
+
+  </tbody>
+</table>

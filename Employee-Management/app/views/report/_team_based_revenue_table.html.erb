@@ -1,0 +1,58 @@
+<div class='alert alert-info alert-block hide' >
+  <h3>Information about Team Based Revenue Generation!</h3>
+  <ul>
+    <li>Potential and Actual revenue of employee is the one we have entered for that employee's revenue projection for that particular date 
+    </li>
+    <li>We are dispalying project involvement in all project including potential one. But the total involvement is for non-potential projects.
+    </li>
+  </ul>
+</div>
+<table id="teamBasedRevenueTable" class="table table-bordered revenue_table" >
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Team Lead</th>
+      <th>Total Involvement</th>
+      <th>Project Involvement</th>
+      <th>Potential Revenue</th>
+      <th>Actual Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% Team.all.each do |team| %>
+      <% active_team_members = team.employees.active_on(revenue_date) %>
+      <% if active_team_members.any? %>
+        <% team_potential_revenue = team_actual_revenue = 0 %>
+        <tr>
+          <td colspan='6' class="title_row"><%= link_to team.name, team_path( team ), class: 'report_link' %></td>
+        </tr>
+        <% active_team_members.each do |employee| %>
+          <% employee_potential_revenue = employee_actual_revenue = 0 %>
+          <% employee.revenue_projection_of( revenue_date ).try do |revenue_projection| %>
+            <%  employee_potential_revenue, employee_actual_revenue = revenue_projection.potential_revenue, revenue_projection.actual_revenue %>
+          <% end %>
+
+          <% team_potential_revenue += employee_potential_revenue %>
+          <% team_actual_revenue += employee_actual_revenue %>
+          <% employee_involvement = employee.involvement_as_on( revenue_date ) %> 
+          <tr class="<%= class_for( employee_involvement) %>">
+            <td> <%= link_to employee.name, employee_path( employee ), class: 'report_link' %> </td>
+            <td> <%= link_to_team_lead( employee.team_lead ) %> </td>
+            <td> <%= number_to_percentage( employee_involvement, precision: 0 ) %> </td>
+            <td> <%= render :partial => 'employee_project_involvement', locals: { revenue_date: revenue_date, employee: employee } %> </td>
+            <td class="revenue_row"> <%= number_to_currency( employee_potential_revenue, precision: 0 ) %> </td>
+            <td class="revenue_row"> <%= number_to_currency( employee_actual_revenue, precision: 0 ) %> </td>
+          </tr>
+        <% end %>
+        <tr>
+          <td colspan="4"> </td>
+          <td colspan="1" class="revenue_row" > <%= number_to_currency( team_potential_revenue, precision: 0 ) %> </td>
+          <td colspan="1" class="revenue_row" > <%= number_to_currency( team_actual_revenue, precision: 0 ) %> </td>
+        </tr>
+        <tr>
+          <td colspan='6' class="break_row"></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

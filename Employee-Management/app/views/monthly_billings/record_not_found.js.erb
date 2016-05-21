@@ -1,0 +1,2 @@
+$('.row-fluid .alert-error').remove();
+$('.row-fluid #content #monthlyBilling').prepend(' <%== j render partial: 'shared/record_not_found', :locals => { :errors => ["Record for this #{record.class} not found"] } %> ' );

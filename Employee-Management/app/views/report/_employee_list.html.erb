@@ -1,0 +1,24 @@
+<% from_date, till_date = @report_start_date, @report_end_date %> 
+<% rows = relieving_employee_list(from_date, till_date) %>
+<% if rows.any? %>
+	<table id="relievingEmployeesTable" class="table table-bordered tablesorter" >
+	  <thead>
+	    <tr>
+	      <th>Name</th>
+	      <th>Project</th>
+	      <th>Relieving Date</th>
+	      <th>Availability</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <% rows.each do |row| %>
+        <tr>
+          <td> <%= row[:employee] %></td>
+          <td> <%= row[:project] %></td>
+          <td> <%= row[:relieving_date] %></td>
+          <td> <%= row[:availability] %></td>
+        </tr>
+      <% end %>
+	  </tbody>
+	</table>
+<% end %>

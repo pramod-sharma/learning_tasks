@@ -1,0 +1,74 @@
+<%= form_for @employee, :html => { :class => 'form-horizontal' } do |f| %>
+<% #FIXME_AB: You should extact following code for error displaying into a partial or as a helper so that we can resuse it -%>
+<% #Fixed %>
+  <% if @employee.errors.any? %>
+    <%= render( :partial => 'shared/errors', :object => @employee.errors ) =%>
+  <% end %>
+  
+  <div class="control-group">
+    <%= f.label :name, "Name", :class => 'control-label cumpolsary-field' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'text_field'%>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :email, "Email", :class => 'control-label cumpolsary-field' %>
+    <div class="controls">
+      <%= f.email_field :email, :class => 'text_field', required: true %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :designation, :class => 'control-label cumpolsary-field' %>
+    <div class="controls">
+      <% #FIXME_AB: Constant should be defined in Employee so that we can use Employee::DESIGNATIONS 
+      # Fixed -%>
+      <%= f.select :designation, options_for_select(Employee::DESIGNATIONS.sort, @employee.designation ) %>
+    </div>
+  </div>
+
+  
+
+  <div class="control-group">
+    <%= f.label :potential_revenue, :class => 'control-label cumpolsary-field' %>
+    <div class=" controls">
+      <div class="input-append">
+        <%= f.text_field :potential_revenue, :class => 'text_field' %>
+        <span class="add-on">USD</span>
+      </div>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :actual_revenue, :class => 'control-label cumpolsary-field' %>
+    <div class=" controls">
+      <div class="input-append">
+        <%= f.text_field :actual_revenue, :class => 'text_field' %>
+        <span class="add-on">USD</span>
+      </div>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :team_id, 'Team', :class => 'control-label cumpolsary-field' %>
+    <div class="controls">
+    <%= f.select :team_id, options_for_select(team_options, @employee.team_id ), prompt: "Select Team" %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :team_lead_id, 'Team Lead', :class => 'control-label' %>
+    <div class="controls">
+    <%= f.select :team_lead_id, options_for_select( employee_options(@employee), @employee.team_lead_id ), { include_blank: "Select Team Lead" } %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :is_admin, 'Admin', :class => 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :is_admin %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit button_text, :class => 'btn btn-primary' %>
+    <%= link_to 'Cancel', employees_path, :class => 'btn' %>
+  </div>
+<% end %>

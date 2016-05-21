@@ -1,0 +1,31 @@
+<% billing_date = @report_start_date.beginning_of_month %>
+<% if Project.active_on(billing_date).any? %>
+  <table id="myTable" class="table table-bordered revenue_table" >
+    <thead>
+      <tr>
+        <th>Project Name</th>
+        <th>Billing Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% company_actual_billing, company_potential_billing = 0, 0 %>
+      <% Project.active_on(billing_date).each do |project| %>
+        <tr>
+          <td> <%= link_to project.name, project_path( project ), class: 'report_link', title: "#{project_details(project)}" %> </td>
+          <% project_billing = project.monthly_billings.of(billing_date).first %>
+          <% if project.state != Project::STATE['Potential'] %>
+            <td><%= number_to_currency(project_billing.try(:amount), precision: 0 ) || 'No Billing' %> </td>
+            <% company_actual_billing += project_billing.try(:amount) || 0 %>
+          <% else %>
+            <td><%= number_to_currency(project_billing.try(:amount), precision: 0) || 'No Billing' %>* </td>
+            <% company_potential_billing += project_billing.try(:amount) || 0 %>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <ul class='unstyled'>
+    <li class="title_row"> <%= " Projects Revenue for #{billing_date.to_s(:string_month)} is #{ number_to_currency(company_actual_billing, precision: 0) }" %> </li>
+    <li class="title_row"> <%= " Potential Project Revenue for #{billing_date.to_s( :string_month )} is #{ number_to_currency(company_potential_billing, precision: 0) }" %> </li>
+  </ul>
+<% end %>

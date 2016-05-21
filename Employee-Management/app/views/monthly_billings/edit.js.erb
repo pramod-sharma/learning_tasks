@@ -1,0 +1,10 @@
+<% if @bill.errors.any? %>
+	$('.row-fluid .alert-error').remove();
+	$('.row-fluid #content #monthlyBilling').prepend(' <%== j render :partial => 'errors', :locals => { :errors => @bill.errors } %> ' );
+<% else %>
+	var amount_cell = $('#monthlyBilling #<%= params[:id] %>').children('.amount');
+	amount_cell.html( '<span class="input-append"> <%= text_field_tag 'amount', nil, :value => @bill.amount, :class => 'text_field', :placeholder => 'Amount' %> <span class="add-on">USD</span> </span>');
+	$('#monthlyBilling #<%= params[:id] %> .edit_button').hide();
+	$('#monthlyBilling #<%= params[:id] %> .save_button').show();
+	$('#monthlyBilling #<%= params[:id] %> .cancel_button').show();
+<% end %>

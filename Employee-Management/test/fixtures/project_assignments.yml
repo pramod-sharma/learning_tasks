@@ -1,0 +1,43 @@
+# Read about fixtures at
+# http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: Dave Thomas
+  address: MyText
+  email: dave@example.org
+  pay_type: Check
+
+two:
+  name: MyString
+  address: MyText
+  email: MyString
+  pay_type: MyString
+first:
+  employee_id: 1
+  project_id: 1
+  join_from: 2013-08-23
+
+second:
+  employee_id: 2
+  project_id: 2
+  join_from: 2013-08-23
+  involvement: 20
+
+third:
+  employee_id: 1
+  project_id: 1
+  join_from: 2013-08-23
+  relieving_date: 2013-10-27
+
+fourth:
+  employee_id: 1
+  project_id: 1
+  join_from: 2013-08-23
+  involvement: 1
+
+
+fifth:
+  employee_id: 1
+  project_id: 1
+  join_from: 2013-08-23
+  involvement: 1

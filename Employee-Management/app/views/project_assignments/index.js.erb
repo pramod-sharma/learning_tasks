@@ -1,0 +1,20 @@
+$('.row-fluid .alert-error').remove();
+<% if Rails.application.routes.recognize_path(request.referrer)[:controller] == 'projects' %>
+
+	<% assignments = current_asignments( params[:project_id] ) %>
+	$('#current-assignment #current_employees').html( '<%== j render :partial => 'shared/project_assignment', :locals => { :referer_page => 'current_assignment', :assignments => assignments } %> ');
+  <% assignments = previous_asignments( params[:project_id] ) %>
+  $('#historyTab').html(' <%== j render :partial => 'shared/project_assignment', :locals => { :referer_page => 'previous_assignment', :assignments => assignments } %> ');
+ 	$('.save_button').hide();
+ 	$('.cancel_button').hide();
+
+<% elsif Rails.application.routes.recognize_path(request.referrer)[:controller] == 'employees' %>
+	
+	<% assignments = current_project_asignments( params[:employee_id] ) %>
+	$('#current-assignment #current_project_list').html( '<%== j render :partial => 'shared/employee_assignment', :locals => { :referer_page => 'current_assignment', :assignments => assignments } %> ');
+  <% assignments = previous_project_asignments( params[:employee_id] ) %>
+  $('#historyTab').html(' <%== j render :partial => 'shared/employee_assignment', :locals => { :referer_page => 'previous_assignment', :assignments => assignments } %> ');
+ 	$('.save_button').hide();
+ 	$('.cancel_button').hide();
+
+<% end %>  

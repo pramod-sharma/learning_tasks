@@ -1,0 +1,24 @@
+$('.row-fluid .alert-error').remove();
+<% if @new_project_assignment && @new_project_assignment.errors.any? %>
+	$('.row-fluid').prepend(' <%== j render :partial => 'shared/errors', :locals => { :errors => @new_project_assignment.errors } %> ' );
+<% end %>
+<% if Rails.application.routes.recognize_path( request.referrer )[:controller] == 'projects' %>
+	<% assignments = current_asignments( @project_assignment.project_id ) %>
+	$('#current-assignment #current_employees').html( '<%== j render :partial => 'shared/project_assignment', :locals => { :referer_page => 'current_assignment', :assignments => assignments } %> ');
+  <% assignments = previous_asignments( @project_assignment.project_id ) %>
+  $('#historyTab').html(' <%== j render :partial => 'shared/project_assignment', :locals => { :referer_page => 'previous_assignment', :assignments => assignments } %> ');
+ 	$('.save_button').hide();
+ 	$('.cancel_button').hide();
+
+
+<% elsif Rails.application.routes.recognize_path( request.referrer )[:controller] == 'employees' %>
+	
+	<% assignments = current_project_asignments( @project_assignment.employee_id ) %>
+	$('#current-assignment #current_project_list').html( '<%== j render :partial => 'shared/employee_assignment', :locals => { :referer_page => 'current_assignment', :assignments => assignments } %> ');
+  <% assignments = previous_project_asignments( @project_assignment.employee_id ) %>
+  $('#historyTab').html(' <%== j render :partial => 'shared/employee_assignment', :locals => { :referer_page => 'previous_assignment', :assignments => assignments } %> ');
+ 	$('.employee-involvement').html(' <h3 class="employee-involvement"><%= "#{ total_involvement_of_employee( @employee, Date.current ) }% involved" %></h3> ' );
+ 	$('.save_button').hide();
+ 	$('.cancel_button').hide();
+
+<% end %>  

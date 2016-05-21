@@ -1,0 +1,10 @@
+$('#employee_list').html( '<%== j render :partial => 'shared/employee_partial', :locals => {:hash => {  :involvement_date => @report_date} } %>' );
+<% if Employee.active_on(@report_date).count != Employee.count %>
+	$('.toggle-employees-list').text('Show Inactive Employees');
+	$('.toggle-employees-list').show();
+<% else %>
+  $('.toggle-employees-list').hide();
+<% end %>
+if($('.toggle-employees-list').text() == 'Show Active Employees' ){
+	$('#employeesList tbody tr').toggle();
+}

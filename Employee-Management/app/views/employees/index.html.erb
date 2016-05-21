@@ -1,0 +1,30 @@
+<% #FIXME_AB: You have called Date.today two times in this file. You should have local variable defined for this and use that -%>
+<%- model_class = Employee -%>
+<div class="page-header">
+	<span>
+  	<h1 class="pull-left"><%=t '.title', :default => "Employees" %></h1>
+  </span>
+  <span class="pull-right new-employee-btn">
+	  <%= link_to 'New Employee', new_employee_path, class: 'btn btn-primary' %>
+	</span>
+	<div class="clear-float"></div>
+
+</div>
+<% if Employee.active_on(@report_date).count != Employee.count %>
+  <button type="button" class='btn-small btn-primary pull-right toggle-employees-list' data-toggle="button">Show Inactive Employees</button>
+<% else %>
+  <button type="button" class='btn-small btn-primary pull-right toggle-employees-list hide' data-toggle="button">Show Inactive Employees</button>
+<% end %>
+<span class="control-group form-horizontal float-right">
+  <%= label_tag :involvement, 'Involvement As On Date', class: 'control-label', id: 'involvement-label' %>
+  <div class="controls">
+    <%= text_field_tag :involvement, format_date(@report_date), class: 'date-field involvement_date form-control ', data: { url: employees_path } %> <%= image_tag 'progress_bar.gif', class: 'progress-bar' %>
+  </div>
+</span>
+
+
+<div class="clear-float"></div>
+
+<div id="employee_list">
+  <%= render :partial => 'shared/employee_partial', :locals => {:hash => {  :involvement_date => Date.parse( params[:involvement_date] || Date.current.to_s ), :order => params[:order] } } %>
+</div>

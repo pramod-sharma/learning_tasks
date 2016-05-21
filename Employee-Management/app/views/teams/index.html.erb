@@ -1,0 +1,31 @@
+<div class="page-header">
+  <% #FIXME_AB: You know this is a Team class then why you are doing  model_class.model_name.human.titleize
+  # Fixed -%>
+  <h1><%=t '.title', :default => "Team".pluralize %></h1>
+</div>
+<%= render :partial => 'form', :locals => { button_title: 'Create'} %>
+<% if !@teams.empty? %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <% #FIXME_AB: We should be avoid using model_class.human_attribute_name(:name) unless you are doing some Metaprogramming -%>
+        <th><%= "Name".humanize %></th>
+        <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @teams.each do |team| %>
+        <tr>
+          <% #FIXME_AB: Instead of using onclick you should attache event from js file unobtrusively  -%>
+          <td> <%= link_to team.name, team_path( team ) %> 
+          <td>
+            <%= link_to 'Edit', edit_team_path(team), :method => 'get', class: 'btn' %>
+            <%- link_to 'Delete',team_path(team), 
+              :method => :delete, :data => { :confirm => "Want to delete #{team.name} team?"},
+              class: 'btn btn-danger' -%>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

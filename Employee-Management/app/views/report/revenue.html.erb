@@ -1,0 +1,20 @@
+<div class="row">  
+  <label class="radio inline">
+    <%= radio_button_tag "generate_reports", "team_based" , true%> By Team
+  </label>
+  <label class="radio inline">
+    <%= radio_button_tag "generate_reports", "project_based" %> By Project
+  </label>
+  <button id="tabular_report" class="btn btn-mini" type="button">Report</button><%= image_tag 'progress_bar.gif', class:'progress-bar' %>
+  <div class='pull-right'><button type="button" class='btn-small btn-primary report-help-button' data-toggle="button">Help</button></div>
+  <div class="control-group form-horizontal pull-right">
+    <%= label_tag :revenue_date, 'Revenue Report As On', class: 'control-label', id: 'revenue-label' %>
+    <div class="controls span5 revenue-date-selector">
+      <%= text_field_tag :revenue_date, format_date(@report_start_date) , class: 'form-control span12', data: { url: pie_report_report_index_path } %> 
+    </div>
+    <%= image_tag 'progress_bar.gif', class: 'progress-bar revenue_progress_bar' %>
+  </div>
+</div>
+<div id="tables_div" class="row">
+	<%= render :partial => "revenue_table" %>
+</div>

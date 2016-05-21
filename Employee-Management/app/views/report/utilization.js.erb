@@ -1,0 +1,11 @@
+$('#utilization_tables_div').html( ' <%= j render :partial => 'utilization_table' %>' );
+$('#relieving_employee_table').html( ' <%= j render :partial => 'employee_list' %> ' );
+
+<%if params.has_key?( :team_id ) || params.has_key?( :emp_id ) %>
+	<% titles, keyids, rows = prepare_piechart_json(@report_start_date) %>
+<% else %>
+	<% titles, keyids, rows = prepare_team_gon(@report_start_date) %>
+<% end %>
+
+<% pie_json = { 'keyids' => keyids, 'rows' => rows, 'titles' => titles }.to_json %>
+createPieChart( <%== pie_json %> ); 

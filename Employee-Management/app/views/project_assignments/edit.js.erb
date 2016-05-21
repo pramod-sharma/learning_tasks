@@ -1,0 +1,20 @@
+var joining_date_cell = $('#assignment-<%= @project_assignment.id %>').children('.joining-date');
+var joining_date = joining_date_cell.text();
+joining_date_cell.html( $('<input type="text" class="date-field joining-date"></input>').val(joining_date) );
+joining_date_cell.find('input:text').datepicker({
+	dateFormat: "dd M yy",
+});
+
+var relieving_date_cell = $('#assignment-<%= @project_assignment.id %>').children('.relieving-date');
+var relieving_date = relieving_date_cell.text();
+relieving_date_cell.html( $('<input type="text" class="date-field relieving_date"></input>').val(relieving_date) );
+relieving_date_cell.find('input:text').datepicker({
+	dateFormat: "dd M yy",
+});
+
+var involvement_cell = $('#assignment-<%= @project_assignment.id %>').children('.involvement');
+var involvement = involvement_cell.text().replace(/[\%]/g, '');
+involvement_cell.html( $('<input type="text" class="involvement"></input>').val(involvement) );
+$('#assignment-<%= @project_assignment.id %> .edit_button').hide();
+$('#assignment-<%= @project_assignment.id %> .save_button').show();
+$('#assignment-<%= @project_assignment.id %> .cancel_button').show();

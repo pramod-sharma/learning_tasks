@@ -1,0 +1,151 @@
+
+<% #FIXME_AB: Formatting issues with this file -%>
+<div class="page-header">
+  <div id="title">
+    <h1 id="employee_name" ><%=t '.title', :default => @employee.name %></h1>
+    <% if !@employee.active? %>
+      <p><strong> Relieving Date: <%= @employee.relieving_date.to_s(:string_format) %> </strong></p>
+    <% end %>
+    <p><strong><%= @employee.email %></strong></p>
+    <p><strong><%= Employee::DESIGNATIONS.key( @employee.designation ) %></strong></p>
+  </div>
+  <div id="buttons">
+   
+    <% if @employee.active? %>
+      <%= link_to 'Edit', edit_employee_path(@employee), class: "btn" %>
+      <%= link_to 'Relieve Employee', '#deactivate_employee_modal', role: "button", data: {toggle: "modal"} , :class => 'btn btn-danger' %>
+    <% end %>
+    <h3 class="employee-involvement"><%= "#{ @employee.involvement_as_on(Date.current) }%" %></h3>
+    <h4>involved</h4>
+
+  </div>
+  <div id="clear_float"></div>
+</div>
+
+<div class="row">
+  <div class="span5">
+    
+    <%if @employee.team.try :name %>
+      <div>
+        <span class="span3"><%= "Team" %>:</span>
+        <span class="span9"><%= @employee.team.try :name %></span>
+      </div>
+    <% end %>
+    <% if @employee.team_lead.try :name %>
+      <div>
+        <span class="span3"><%= "Team Lead" %>:</span>
+        <span class="span9"><%= @employee.team_lead.try :name %></span>
+      </div>
+    <% end %>
+  </div>
+  <div class="involvement-details span4 offset3">
+    <div>
+      <span class="span9"><%= "Potential Revenue" %>:</span>
+      <span class="span3"><%= number_to_currency( @employee.potential_revenue, precision: 0 ) %></span>
+    </div>
+    <div>
+      <span class="span9"><%= "Actual Revenue" %>:</span>
+      <span class="span3"><%= number_to_currency( @employee.actual_revenue, precision: 0 ) %></span>
+    </div>
+  </div>
+</div>
+
+<div id="content">
+  <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#current-assignment" data-toggle="tab"> Current Assignment</a></li>
+    <li><a href="#historyTab" data-toggle="tab">Previous Assignment</a></li>
+  </ul>
+  <div id="my-tab-content" class="tab-content">
+    <div class="tab-pane row" id="current-assignment">
+      <%= form_for ProjectAssignment.new , :html => { :class => 'form-horizontal', name: 'project_assignment'}, remote: true do |f| %>
+        <span class="span2">
+          <%= select_tag 'project_assignment[project_id]', options_for_select( generate_project_options(@employee.id), :prompt => "Select Project" ), class: 'span12' %>
+        </span>
+        <span class="span2">
+          <%= f.text_field :join_from, :class => 'date-field span12', :value => format_date(Date.current) %>
+        </span>
+        <span class="span2">
+          <%= f.text_field :relieving_date, :class => 'date-field span12', :placeholder => "Relieving Date" %>
+        </span>
+        <span class="input-append span2">
+          <%= f.text_field :involvement, :class => 'text_field span12', :placeholder => 'Involvement' %>
+          <span class="add-on">%</span>
+        </span>
+        <%= image_tag 'progress_bar.gif', class: 'progress_bar' %>
+        <%= hidden_field_tag('project_assignment[employee_id]', @employee.id) %>
+
+        <span class="project_assignment_button span2">
+          <%= f.submit "Assign Project", :class => 'btn btn-primary project_assignment_button', data: { url: new_project_assignment_path }  %>
+        </span>
+      <%end%>
+      <div id="current_project_list" class="row">
+        <% assignments = current_project_asignments( @employee.id ) %>
+        <%= render :partial => 'shared/employee_assignment', :locals => { :referer_page => 'current_assignment', :assignments => assignments } %>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="historyTab">
+      <% assignments = previous_project_asignments( @employee.id ) %>
+      <%= render :partial => 'shared/employee_assignment', :locals => { :referer_page => 'previous_assignment', :assignments => assignments } %>
+    </div>
+
+    <div id="relieve_employee_modal" class="modal hide fade relieving_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel"> Joining date must be before or equal to relieving date</h3>
+      </div>
+      <div class="modal-body form-horizontal">
+        <div class="control-group">
+          <%= label_tag :relieving_date, "New Relieving Date", :class => 'control-label cumpolsary-field' %>
+          <div class="controls">
+            <%= text_field_tag :relieving_date, nil, :class => 'date-field', :value => format_date(Date.current) %>
+          </div>
+        </div>
+        <div class="control-group">
+          <%= label_tag :involvement, "New Involvement", :class => 'control-label cumpolsary-field' %>
+          <div class="controls">
+            <span class="input-append span5">
+              <%= text_field_tag :involvement, nil, :class => 'text_field span6', :placeholder => 'Involvement' %><span class="add-on">%</span>
+            </span>
+          </div>
+        </div>
+        <div class="form-actions">
+          <%= link_to 'Relieve', '#', class: 'btn btn-small btn-danger relieve-employee-button' %>
+        </div>
+      </div>
+    </div>
+    <% if @employee.active? %>
+      <div id="deactivate_employee_modal" class="modal hide fade relieving_modal" tabindex="-1" >
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="myModalLabel"> Relieve Employee from company</h3>
+        </div>
+        <div class="modal-body">
+            <%= form_tag relieve_employee_path(@employee) , :class => 'form-horizontal', remote: true do %>
+              <% if @employee.subordinates.any? %>
+                <%= "#{ @employee.name } has #{ @employee.subordinates.pluck(:name).collect(&:capitalize).join(', ') } as his subordinates. Please select a new team lead for them "  %>
+                <div class="control-group">
+                  <%= label_tag :new_team_lead, "New Team Lead for Subordinates", :class => 'control-label cumpolsary-field' %>
+                  <div class="controls">
+                    <%= select_tag :new_team_lead, options_for_select( employee_options(@employee) ) , :prompt => "Select New Team Lead" %>
+                  </div>
+                </div>
+              <% end %>
+              <% if @employee.live_assignments.any? %>
+                <%= " #{@employee.name} is already assigned to #{@employee.live_assignments.collect { |assignment| assignment.project.name}.join(', ')} project. Employee is going to relieve from them on his/her relieving date." %>
+              <% end %>
+              <div class="control-group">
+                <%= label_tag :employee_relieving_date, "Relieved On", :class => 'control-label cumpolsary-field' %>
+                <div class="controls">
+                  <%= text_field_tag :employee_relieving_date, nil, :class => 'date-field', :placeholder => 'Relieving Date'  %>
+                </div>
+              </div>
+              <div class="form-actions">
+                <%= submit_tag 'Relieve Employee', :class => 'btn btn-primary btn-danger' %>
+              </div>
+            <%end%>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,4 @@
+$('.row-fluid .alert-error').remove();
+$('#monthlyBilling #bill_list').html( '<%=j render :partial => "shared/monthly_billing_listing", :locals => { :model_class => MonthlyBilling, :hash => { :project_id => params[ :project_id ] } } %>' );
+$('.save_button').hide();
+$('.cancel_button').hide();

@@ -1,0 +1,7 @@
+<%- model_class = Team -%>
+<div class="page-header">
+  <% #FIXME_AB: You know this is a Team class then why you are doing  model_class.model_name.human.titleize
+  #Fixed -%>
+  <h1><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{ model }'], :model => "Team" %></h1>
+</div>
+<%= render :partial => 'form', :locals => { button_title: 'Save'} %>

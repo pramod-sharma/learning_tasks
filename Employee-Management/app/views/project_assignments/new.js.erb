@@ -1,0 +1,5 @@
+$('.row-fluid .alert-error').remove();
+<% if @project_assignment.errors.any? %>
+	$('.row-fluid #content #current-assignment').prepend(' <%== j render :partial => 'errors', :locals => { :errors => @project_assignment.errors } %> ' );
+<% end %>
+$('.progress_bar').hide(); 

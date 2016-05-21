@@ -1,0 +1,26 @@
+<% monthly_billings = find_monthly_billings hash%>
+<% if monthly_billings.any? %>
+  <table class="table table-striped" >
+    <thead>
+      <tr>
+        <th><%= "Billing Period" %></th>
+        <th><%= "Amount" %></th>
+        <th><%= 'Actions' %></th>
+      </tr>
+    </thead>
+    <tbody class="monthly_billing">
+      <% monthly_billings.each do |bill| %>
+        <tr id=<%= bill.id %> >
+          <td class="month"> <%= bill.billing_date.to_s( :string_month ) %> <%= bill.billing_date.year %> </td>
+          <td class="amount"> <%= number_to_currency( bill.amount, :precision => 0 ) %> </td>
+          <td>
+            <%= link_to 'Edit', edit_project_monthly_billing_path( hash[:project_id], bill ), class: 'btn btn-small btn-primary edit_button', remote: true %>
+            <%= link_to 'Save', nil, class: 'btn btn-small btn-primary save_button', data: { url:  project_monthly_billing_path( hash[:project_id], bill ) } %>
+            <%= link_to 'Cancel', project_monthly_billings_path( :project_id => hash[:project_id] ), remote: true, class: 'btn btn-small cancel_button' %>
+            <%= link_to 'Delete', project_monthly_billing_path( hash[:project_id], bill ), class: 'btn btn-small btn-danger', method: :delete, remote: true %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

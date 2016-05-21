@@ -1,0 +1,55 @@
+<% key, employees = employee_collection(hash) %>
+<% model_class ||= Employee %>
+<% if employees.any? %>
+
+
+  <table id='employeesList' class="table table-bordered table-striped tablesorter" >
+    <thead>
+      <tr>
+        <th><%= header_name_for_employee( key ) %></th>
+        <th><%= "Designation" %></th>
+        <% if employee_listing_page?(key) %>
+          <th><%= "Team" %></th>
+        <% end %>
+        <% if team_show_page?(key) || employee_listing_page?(key) %>
+          <th><%= "Team Lead" %></th>
+        <% end %>
+        <% if project_show_page?(key) %>
+          <th><%= "Joined On" %> </th>
+          <th><%= "Relieving On" %> </th>
+          <th><%= "Project Involvement" %> </th>
+        <% else %>
+          <th id="involvement-column"><%= "Involvement %" %></th>
+        <% end %>
+        <% if ( employee_listing_page?( key ) || ( key.include? :project_id ) ) %>
+          <th><%= 'Actions' %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% employees.each do |employee| %>
+        <tr id="<%= employee.id %>" class=<%= employee.active_on?(@report_date) ? 'active' : 'hide' %> >
+          <td><%= link_to employee.name, employee_path( employee ) %></td>
+            <td><%= Employee::DESIGNATIONS.key( employee.designation ) %></td>
+          <% if employee_listing_page?( key ) %>  
+            <td><%= employee.team.name %></td>
+          <% end %>
+          <% if team_show_page?( key ) || employee_listing_page?( key ) %>
+            <td><%= team_lead( employee )  %></td>
+          <% end %>
+            <td > <%= "#{ employee.involvement_as_on( hash[:involvement_date]  ) }%" %> </td>
+          <td>
+
+            <% if employee_listing_page?( key ) && employee.active_on?(@report_date) %>
+              <% if key.exclude?(:team_id) %>
+                <%= link_to 'Edit', edit_employee_path(employee), class: "btn btn-small" %>
+                <%= link_to 'Assign Project', new_project_assignment_path(employee_id: employee.id ), class: "btn btn-small btn-primary" %>
+              <% end %>
+            <% end %>
+            
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<%end%>

@@ -1,0 +1,6 @@
+<% #FIXME_AB: HTML Formatting issues -%>
+<% if params[:filter_basis] == 'project_based' %>
+  <%= render partial: 'project_based_revenue_table', locals: { revenue_date: @report_start_date } %>
+<% else %>
+  <%= render partial: 'team_based_revenue_table', locals: { revenue_date: @report_start_date } %>
+<% end %>

@@ -1,0 +1,10 @@
+<tr id="<%= @bill.id %>">
+  <td class="month"> <%= monthly_bill.billing_date.to_s( :string_month ) %> <%= monthly_bill.billing_date.year %> </td>
+  <td class="amount"> <%= number_to_currency( monthly_bill.amount, :precision => 0 ) %> </td>
+  <td>
+  	<%= link_to 'Edit', edit_project_monthly_billing_path( params[:project_id], @bill ), class: 'btn btn-small btn-primary edit_button', remote: true %>
+    <%= link_to 'Save', nil, class: 'btn btn-small btn-primary save_button', data: { url:  project_monthly_billing_path( @bill.project_id, @bill.id ) } %>
+    <%= link_to 'Cancel', project_monthly_billings_path( :project_id => params[:project_id] ), remote: true, class: 'btn btn-small cancel_button' %>
+    <%= link_to 'Delete', project_monthly_billing_path( params[:project_id], @bill ), class: 'btn btn-small btn-danger', method: :delete, remote: true %>
+  </td>
+</tr>

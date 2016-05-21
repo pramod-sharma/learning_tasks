@@ -1,0 +1,51 @@
+<% key, projects = project_collection(hash) %>
+<div id="my-tab-content" class="tab-content">
+<% projects.each do |status, project_list| %>
+  <div class="tab-pane" id="<%= status %>">
+    <% if project_list.any? %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th><%= "Project Name" %></th>
+          <% if hash.has_key? :employee_id %>
+            <th><%= "Joined On" %></th>
+            <th><%= "Relieving On" %></th>
+          <% else %>
+            <th><%= "Start Date" %></th>
+            <th><%= "End Date" %></th>
+          <% end %>
+          <% if status != :completed_projects %>
+            <th><%= t '.actions', :default =>t("helpers.actions") %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% project_list.each do |project| %>
+          <tr>
+            <td><%= link_to project.name, project_path( project ) %></td>
+            <% if hash.has_key? :employee_id %> 
+              <td><%= joining_date( hash[:employee_id], project.id ) %></td>
+              <td><%= relieving_date( hash[:employee_id], project.id ) %></td>
+            <% else %>
+              <td><%= project.start_date.to_s(:string_format) %></td>
+              <td><%= project.end_date.to_s(:string_format) %></td>
+                          <% end %>
+            <td>
+            <% if status != :completed_projects %>
+                <%= link_to 'Edit', edit_project_path(project), class: 'btn btn-small' %>
+                <%= link_to 'Assign Employee',new_project_assignment_path(:project_id => project.id), class: 'btn btn-small' %>
+
+                <%- link_to 'Deactivate Project', deactivate_project_path(project), :method => 'post', :data => { :confirm => "Are you sure, You want to deactivate the project #{ project.name }?" }, :class => 'btn btn-small btn-danger' -%>            
+            <% else %>
+              <%- link_to 'Activate Project', activate_project_path(project), :method => 'post', :class => 'btn btn-small btn-primary' -%>
+              <%- link_to 'Delete', project, remote: true, method: :delete, :data => { :confirm => "Want to delete #{ project.name } project?" }, :class => ' delete-project btn btn-danger' -%>
+            <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%end%>
+  </div>
+<% end %>
+</div>

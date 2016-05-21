@@ -1,0 +1,4 @@
+$('.row-fluid .alert-error').remove();
+<% if @bill.errors.any? %>
+	$('.row-fluid #content #monthlyBilling').prepend(' <%== j render :partial => 'errors', :locals => { :errors => @bill.errors } %> ' );
+<% end %>

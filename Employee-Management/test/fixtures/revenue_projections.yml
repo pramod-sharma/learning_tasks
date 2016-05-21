@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  actual_revenue: 1
+  potential_revenue: 1
+  month: MyString
+  year: 1
+  employee_id: 
+
+two:
+  actual_revenue: 1
+  potential_revenue: 1
+  month: MyString
+  year: 1
+  employee_id: 

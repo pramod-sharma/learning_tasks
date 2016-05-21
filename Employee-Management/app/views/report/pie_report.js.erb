@@ -1,0 +1,31 @@
+<% if params[:key].blank? %> 
+  <% pie_report_hash = prepare_team_gon(@report_start_date) %>
+	createPieChart( <%== pie_report_hash.to_json %> );
+	$(".piechartspan").data("key", "team")
+  $(".breadcrumb").html('<li class="active"><a href="#">Vinsol</a> </li>');
+
+<% elsif params[:key] == "team" %>
+  <% pie_report_hash = prepare_piechart_json(@report_start_date, Team.find( params[:id]), 'team' ) %>
+  <%   if pie_report_hash['data'].any? %>
+    $('.breadcrumb li:contains("<%= Team.find( params[:id] ).name %>")').nextAll().remove();
+    $('.breadcrumb li:contains("<%= Team.find( params[:id] ).name %>")').prev().remove();
+    $('.breadcrumb li:contains("<%= Team.find( params[:id] ).name %>")').remove();
+    $('.breadcrumb li.active').removeClass('active');
+    $(".breadcrumb").append('<span class="divider">></span><li class="active" data-key="team" data-id="<%= params[:id] %>""><a href="#"> <%= Team.find( params[:id] ).name %> </a> </li>');
+    $('.breadcrumb li:contains( "<%= Team.find( params[:id] ).name %>")').addClass("active");
+    createPieChart( <%== pie_report_hash.to_json %> );
+    $(".piechartspan").data("key", "emp");
+  <% end %>
+<% elsif params[:key] == "emp" %>
+  <% pie_report_hash = prepare_piechart_json(@report_start_date, Employee.find( params[:id]), 'emp' ) %>
+  <% if pie_report_hash['data'].any? %>
+    $('.breadcrumb li:contains("<%= Employee.find( params[:id] ).name %>")').nextAll().remove();
+    $('.breadcrumb li:contains("<%= Employee.find( params[:id] ).name %>")').prev().remove();
+    $('.breadcrumb li:contains("<%= Employee.find( params[:id] ).name %>")').remove();
+    $('.breadcrumb li.active').removeClass('active');
+    $(".breadcrumb").append('<span class="divider">></span><li class="active" data-key="emp" data-id="<%= params[:id] %>""><a href="#"> <%= Employee.find( params[:id] ).name %> </a> </li>');
+    $('.breadcrumb li:contains( "<%= Employee.find( params[:id] ).name %>")').addClass("active");
+    createPieChart( <%== pie_report_hash.to_json %> );
+    $(".piechartspan").data("key", "emp");
+  <% end %>
+<% end %>

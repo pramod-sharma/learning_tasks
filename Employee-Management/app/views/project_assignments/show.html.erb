@@ -1,0 +1,22 @@
+<div class="page-header">
+  <h1><%=t '.title', :default => "Project Assignment" %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= "Employee Name" %>:</strong></dt>
+  <dd><%= employee_name( @project_assignment.employee_id ) %></dd>
+  <dt><strong><%= "Project Name" %>:</strong></dt>
+  <dd><%= project_name( @project_assignment.project_id ) %></dd>
+  <dt><strong><%= "Join On" %>:</strong></dt>
+  <dd><%= format_date( @project_assignment.join_from ) %></dd>
+  <dt><strong><%= "Relieving On" %>:</strong></dt>
+  <dd><%= format_date( @project_assignment.relieving_date ) %></dd>
+  <dt><strong><%= "Involvement" %>:</strong></dt>
+  <dd><%= @project_assignment.involvement %></dd>
+</dl>
+
+<div class="form-actions">
+  <%= link_to 'Back', project_assignments_path, class: "btn"%>
+  <%= link_to 'Edit', edit_project_assignment_path( @project_assignment ), class: "btn" %>
+  <%= link_to 'Delete', project_assignment_path( @project_assignment ),:method => 'delete',:data => { :confirm => 'Are you sure?' }, :class => 'btn btn-danger' %>
+</div>

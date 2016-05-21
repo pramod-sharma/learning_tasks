@@ -1,0 +1,40 @@
+<% if assignments.any? %>
+
+  <table class="table table-striped" >
+    <thead>
+      <tr>
+        <th><%= "Project Name" %></th>
+        <th><%= "Joined On" %> </th>
+        <% if referer_page == 'current_assignment' %> 
+          <th><%= "Relieving On" %> </th>
+        <% else %>
+          <th><%= "Relieved On" %> </th>
+        <% end %>
+        <th><%= "Project Involvement" %> </th>
+        <% if referer_page == 'current_assignment' %> 
+          <th><%= 'Actions' %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% assignments.each do |assignment| %>
+        <tr id="assignment-<%= assignment.id %>" >
+          <td><%= link_to assignment.project.name, project_path( assignment.project ) %></td>
+          <td class="joining-date"><%= format_date( assignment.join_from ) %> </td>
+          <td class="relieving-date"><%= format_date( assignment.relieving_date ) %> </td>
+          <td class="involvement"> <%= "#{ assignment.involvement }%" %></td>
+          
+          <% if referer_page == 'current_assignment' %> 
+            <td>
+              <%= link_to 'Edit', edit_project_assignment_path( assignment ), remote: true, class: 'btn btn-small edit_button' %>
+              <%= link_to 'Save', nil, data: { url: project_assignment_path( assignment ) }, class: 'btn btn-small save_button' %>
+              <%= link_to 'Cancel', project_assignments_path( :employee_id => assignment.employee_id), remote: true, class: 'btn btn-small cancel_button' %>
+              <%= link_to 'Relieve', '#', class: "btn btn-small btn-danger relieve_employee_button", data: { toggle: "modal", url: relieve_project_assignment_path( assignment ) }, role: "button" %>
+            </td>
+          <% end %>
+            
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<%end%>

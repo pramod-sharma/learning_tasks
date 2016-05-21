@@ -1,0 +1,27 @@
+<% #FIXME_AB: Woudl this be returning valid HTML. Won't the following HTML will be rendered with layout. Resulting to HTML tags? -%>
+<html>
+  <head>
+  	<%= stylesheet_link_tag "application", :media => "all" %>
+  	<%= javascript_include_tag "application" %>
+  </head>
+  <body>
+    <div id="header" ><h3>Employee Utilization</h3><%= image_tag 'vinsol-logo.png', class: 'textbottom' %>
+      <div class="clear_float"></div>
+    </div>
+    <div id="seperator"></div>
+    <% if session[:user_id].nil? %>
+      <% if notice %>
+        <div class="alert alert-success">
+          <%= notice %>
+        </div>
+      <% elsif flash[:error] %>
+        <div class="alert alert-error">
+          <%= flash[:error] %>
+        </div>
+      <% end %>
+		  <div class="wrapper">
+	    	<%= link_to 'Login via Vinsol Mail Account', '/auth/google', :class => 'btn btn-primary login-btn' %>
+	    </div>
+    <% end %>
+  </body>
+</html>

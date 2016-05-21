@@ -1,0 +1,33 @@
+<% utilization_date = @report_start_date %>
+<table id="myTable" class="table table-bordered utilization_table" >
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Project Involvement %</th>
+      <th id='availability-column' data-order=<%= new_order(params[:order]) %>>Availability <%= image_for_sort(params[:order]) %> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% Team.all.each do |team| %>
+      <% if team.employees.active_on(utilization_date).any? %>
+        <tr>
+          <td colspan='3' class="title_row"><%= link_to team.name, team_path( team ), class: 'report_link' %></td>
+        </tr>
+        <% team_employees = sorted_employees(team, utilization_date, params[:order]) %>
+        <% team_employees.each do |employee| %>
+
+          <% employee_involvement = employee.involvement_as_on( utilization_date ) %>
+          <tr class="<%= class_for( employee_involvement) %>">
+            <td> <%= link_to employee.name, employee_path( employee ), class: 'report_link' %></td>
+            <td> <%= render :partial => 'employee_project_involvement', locals: { revenue_date: utilization_date, employee: employee } %> </td>
+            <td> <%= number_to_percentage( 100 - employee_involvement, precision: 0) %>
+            </td>
+          </tr>
+        <% end %>
+        <tr>
+          <td colspan='3' class="break_row"></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

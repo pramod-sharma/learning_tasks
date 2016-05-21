@@ -1,0 +1,6 @@
+<% if @bill.frozen? %>
+	$('#<%= params[:id] %>').remove();
+	alert("Monthly Billing successfully deleted");
+<% else %>
+	alert("Monthly billing not deleted");
+<% end %>

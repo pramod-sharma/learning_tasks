@@ -1,0 +1,42 @@
+.page-header{
+	#title{
+		float: left;
+	}
+
+	#buttons{
+		float: right;
+	}
+	
+	#clear_float{
+		clear: both;
+	}
+}
+.assign_employee_btn{
+	color: #ffffff;
+}
+
+.page-header{
+	margin-top: -15px;
+}
+
+#new-project {
+	margin-top: -85px;
+}
+
+.field_with_errors{
+  background-color: white;
+  display: block;
+  padding: 0px;
+}
+
+#current-assignment [class*='span']{
+	margin-left: 10px;
+}
+
+#current-assignment .input-append{
+	margin-right: 35px;
+}
+
+.monthly-billing-button{
+	margin-left: -70px;
+}

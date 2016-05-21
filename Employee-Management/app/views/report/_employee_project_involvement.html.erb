@@ -1,0 +1,13 @@
+<% employee.current_assignments_on( revenue_date ).each do |project_assignment| %>
+
+	<% project = project_assignment.project %>
+	<div class='projectTable'>
+		<div class='row'>
+			<div class='span9'> <%= link_to( project.name, project_path( project ), class: 'report_link', title: " #{ project_details(project) }" ) %>
+      </div>
+      <div class='span3'> <%= number_to_percentage( project_assignment.involvement, precision: 0) %> 
+      </div>
+    </div>
+  </div>
+<% end %>
+
